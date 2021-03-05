@@ -98,4 +98,8 @@ public class DBController {
 		
 		return result;
 	}
+	
+	// TODO: getIssuedItems
+	
+	// TODO: getReturnedItems
 }

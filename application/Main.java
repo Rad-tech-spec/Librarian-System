@@ -27,6 +27,8 @@ public class Main extends Application {
 		}
 	}
 	
+	// TODO: Request a book Scene
+	
 	public void changeScene(Parent newRoot) {
 		try {
 			currentStage.getScene().setRoot(newRoot);

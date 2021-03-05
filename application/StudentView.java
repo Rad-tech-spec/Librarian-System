@@ -80,6 +80,9 @@ public class StudentView {
 		if (items != null && !items.isEmpty()) {
 			for (Item item : items) {
 				System.out.print(item.getId() + " " + " " + item.getTitle() + " " + item.getAuthor() + "\n");
+				
+				// TODO: display Items in the dataTable
+				
 			}
 		}
 		else {
