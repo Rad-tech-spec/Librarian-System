@@ -12,7 +12,7 @@ import model.Item;
 import model.ItemSearchAttribute;
 
 /**
- * Class that handles connection to and manipulation of the database.
+ * Class that handles connection to and manipulation of the Library database.
  */
 public class DBController {
 	
@@ -62,7 +62,7 @@ public class DBController {
 	}
 	
 	/**
-	 * Searches for items in the database by provided attribute and its value.
+	 * Searches for items in the database by specified attribute name and its value.
 	 * @param title String with item title
 	 * @return
 	 */
@@ -87,8 +87,6 @@ public class DBController {
 				entry.setType(resSet.getString("type"));
 				
 				result.add(entry);
-				
-				System.out.print(entry.getId() + " " + " " + entry.getTitle() + " " + entry.getAuthor() + "\n");
 			}
 			
 			resSet.close();
@@ -99,24 +97,5 @@ public class DBController {
 		}
 		
 		return result;
-	}
-	
-	/**
-	 * Method to test retrieving of items from DB.
-	 */
-	public void getItems() throws SQLException {
-		statement = connection.createStatement();
-		String sql = "SELECT * FROM books";
-		ResultSet resSet = statement.executeQuery(sql);
-			
-		while (resSet.next()) {
-			String id = resSet.getString("id");
-			String title = resSet.getString("name");
-			String author = resSet.getString("author");
-			System.out.print(id + " " + " " + title + " " + author + "\n");
-		}
-		
-		resSet.close();
-		statement.close();
 	}
 }
