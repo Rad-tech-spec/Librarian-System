@@ -1,2 +1,4 @@
 # btp400-library-app
-## BTP 400 Assignment 1 - Library Application
+
+* application directory contains logic for UI rendering and manipulation
+* config directory contains logic for database manipulation
