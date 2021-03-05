@@ -2,6 +2,7 @@ package application;
 
 import javafx.scene.Parent;
 import javafx.fxml.FXMLLoader;
+import javafx.event.ActionEvent;
 
 import java.io.IOException;
 
@@ -22,5 +23,9 @@ public class StudentView {
 	public Parent getStudentView() throws IOException {
 		Parent root = FXMLLoader.load(getClass().getResource("studentView.fxml"));
 		return root;
+	}
+	
+	public void handleSearch(ActionEvent event) {
+		
 	}
 }

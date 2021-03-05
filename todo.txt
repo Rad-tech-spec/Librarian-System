@@ -1,0 +1,5 @@
+1. JUnit tests. ?
+
+2. findItems() - return a List with entries (String arrays with values) / create custom types and return a List with Item types
+
+3. Student enters id, phone num and academic standing upon book request

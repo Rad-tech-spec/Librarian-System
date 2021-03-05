@@ -16,11 +16,11 @@
    <left>
       <AnchorPane prefHeight="720.0" prefWidth="314.0" style="-fx-background-color: #fafafa;" BorderPane.alignment="CENTER">
          <children>
-            <TextField layoutX="14.0" layoutY="92.0" prefHeight="25.0" prefWidth="198.0" promptText="Search by parameter">
+            <TextField fx:id="searchField" layoutX="14.0" layoutY="92.0" prefHeight="25.0" prefWidth="198.0" promptText="Search by parameter">
                <font>
                   <Font size="14.0" />
                </font></TextField>
-            <ComboBox layoutX="15.0" layoutY="58.0" prefHeight="25.0" prefWidth="197.0" promptText="Select parameter">
+            <ComboBox fx:id="parameterSelector" layoutX="15.0" layoutY="58.0" prefHeight="25.0" prefWidth="197.0" promptText="Select parameter">
             	<items>
             		<FXCollections fx:factory="observableArrayList">
             			<String fx:id="titleParam" fx:value="by Title" />
@@ -33,11 +33,11 @@
                   <Font size="24.0" />
                </font>
             </Label>
-            <Button layoutX="15.0" layoutY="165.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="198.0" text="View Borrowed Books">
+            <Button fx:id="viewBorrowedBtn" layoutX="15.0" layoutY="165.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="198.0" text="View Borrowed Items">
                <font>
                   <Font size="14.0" />
                </font></Button>
-            <Button layoutX="15.0" layoutY="129.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="198.0" text="Search">
+            <Button fx:id="searchBtn" layoutX="15.0" layoutY="129.0" mnemonicParsing="false" onAction="#handleSearch" prefHeight="25.0" prefWidth="198.0" text="Search">
                <font>
                   <Font size="14.0" />
                </font></Button>
@@ -47,7 +47,7 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <TableView layoutX="9.0" layoutY="14.0" prefHeight="555.0" prefWidth="742.0">
+            <TableView fx:id="dataTable" layoutX="9.0" layoutY="14.0" prefHeight="555.0" prefWidth="742.0">
               <columns>
                 <TableColumn prefWidth="110.0" text="ID" />
                 <TableColumn prefWidth="109.0" text="Title" />
@@ -58,7 +58,7 @@
                   <TableColumn prefWidth="144.0" text="Location" />
               </columns>
             </TableView>
-            <Button layoutX="9.0" layoutY="577.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="197.0" text="Request the book">
+            <Button fx:id="requestBtn" layoutX="9.0" layoutY="577.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="197.0" text="Request the item">
                <font>
                   <Font size="14.0" />
                </font></Button>

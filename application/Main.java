@@ -2,9 +2,10 @@ package application;
 	
 import javafx.application.Application;
 import javafx.stage.Stage;
-//import javafx.scene.Parent;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-//import javafx.fxml.FXMLLoader;
+
+import config.DBController;
 
 public class Main extends Application {
 	
@@ -23,21 +24,28 @@ public class Main extends Application {
 			currentStage.setTitle("Library Application | Student View");
 			currentStage.setScene(scene);
 			currentStage.show();
+			
+			DBController db = new DBController("jdbc:postgresql://ziggy.db.elephantsql.com:5432/efcagywl", "efcagywl", "PMMtt1RExmvYJXt37yaT0qxi5XQI5fci");
+			db.connect();
+			//db.getItems();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-//	public void changeScene(String fxmlFile) {
-//		try {
-//			Parent newRoot = FXMLLoader.load(getClass().getResource(fxmlFile));
-//			currentStage.getScene().setRoot(newRoot);
-//		}
-//		catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
+	public void changeScene(Parent newRoot) {
+		try {
+			currentStage.getScene().setRoot(newRoot);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
+	/**
+	 * Entry point of the program.
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
