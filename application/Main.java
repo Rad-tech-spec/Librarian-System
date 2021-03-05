@@ -5,9 +5,6 @@ import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
-import config.DBController;
-import model.ItemSearchAttribute;
-
 public class Main extends Application {
 	
 	private static Stage currentStage;
@@ -18,19 +15,13 @@ public class Main extends Application {
 			currentStage = primaryStage;
 			
 			StudentView panel = new StudentView();
-			Scene scene = new Scene(panel.getStudentView(),1080,720);
+			Scene scene = new Scene(panel.getStudentView(), 1080, 720);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			
 			currentStage.setResizable(false);
 			currentStage.setTitle("Library Application | Student View");
 			currentStage.setScene(scene);
 			currentStage.show();
-			
-			DBController db = new DBController("jdbc:postgresql://ziggy.db.elephantsql.com:5432/efcagywl", "efcagywl", "PMMtt1RExmvYJXt37yaT0qxi5XQI5fci");
-			db.connect();
-			db.getItemsByAttribute(ItemSearchAttribute.TITLE, "Business");
-			
-			db.disconnect();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
