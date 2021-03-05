@@ -1,40 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.StudentView">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.StudentView">
    <left>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="720.0" prefWidth="314.0" style="-fx-background-color: #fafafa;" BorderPane.alignment="CENTER">
          <children>
-            <TextField layoutX="7.0" layoutY="87.0" prefHeight="25.0" prefWidth="186.0" promptText="Search by parameter" />
-            <ComboBox layoutX="8.0" layoutY="52.0" prefHeight="25.0" prefWidth="155.0" promptText="Select parameter" />
-            <Label layoutX="14.0" layoutY="14.0" text="View Books">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label layoutX="8.0" layoutY="330.0" text="Logged in as: ">
+            <TextField layoutX="14.0" layoutY="92.0" prefHeight="25.0" prefWidth="198.0" promptText="Search by parameter">
                <font>
                   <Font size="14.0" />
+               </font></TextField>
+            <ComboBox layoutX="15.0" layoutY="58.0" prefHeight="25.0" prefWidth="197.0" promptText="Select parameter">
+            	<items>
+            		<FXCollections fx:factory="observableArrayList">
+            			<String fx:id="titleParam" fx:value="by Title" />
+            			<String fx:id="authorParam" fx:value="by Author" />
+            		</FXCollections>
+            	</items>
+            </ComboBox>
+            <Label layoutX="14.0" layoutY="14.0" text="Search Item">
+               <font>
+                  <Font size="24.0" />
                </font>
             </Label>
-            <Button fx:id="logOutButton" layoutX="8.0" layoutY="361.0" mnemonicParsing="false" onAction="#handleLogOut" text="Log Out" />
-            <Button layoutX="73.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="View My Requests" />
+            <Button layoutX="15.0" layoutY="165.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="198.0" text="View Borrowed Books">
+               <font>
+                  <Font size="14.0" />
+               </font></Button>
+            <Button layoutX="15.0" layoutY="129.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="198.0" text="Search">
+               <font>
+                  <Font size="14.0" />
+               </font></Button>
          </children>
       </AnchorPane>
    </left>
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <ListView prefHeight="400.0" prefWidth="400.0" />
+            <TableView layoutX="9.0" layoutY="14.0" prefHeight="555.0" prefWidth="742.0">
+              <columns>
+                <TableColumn prefWidth="110.0" text="ID" />
+                <TableColumn prefWidth="109.0" text="Title" />
+                  <TableColumn prefWidth="108.0" text="Author" />
+                  <TableColumn prefWidth="81.0" text="Quantity" />
+                  <TableColumn prefWidth="98.0" text="Category" />
+                  <TableColumn prefWidth="91.0" text="Status" />
+                  <TableColumn prefWidth="144.0" text="Location" />
+              </columns>
+            </TableView>
+            <Button layoutX="9.0" layoutY="577.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="197.0" text="Request the book">
+               <font>
+                  <Font size="14.0" />
+               </font></Button>
          </children>
       </AnchorPane>
    </center>

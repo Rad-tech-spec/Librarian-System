@@ -1,29 +1,26 @@
 package application;
 
-import javafx.fxml.FXML;
-//import javafx.fxml.FXMLLoader;
-//import javafx.scene.Parent;
-import javafx.scene.control.Button;
-//import javafx.scene.control.Label;
-//import javafx.scene.control.PasswordField;
-//import javafx.scene.control.TextField;
-//import javafx.stage.Stage;
-import javafx.event.ActionEvent;
+import javafx.scene.Parent;
+import javafx.fxml.FXMLLoader;
 
+import java.io.IOException;
+
+/**
+ * This class is responsible for loading Student View (studentView.fxml) and handling its events.
+ */
 public class StudentView {
-	
+	/**
+	 * Creates an instance of StudentView class
+	 */
 	public StudentView() { }
 	
-	@FXML
-	private Button logOutButton;
-	
-	public void handleLogOut(ActionEvent event) {
-		try {
-			Main m = new Main();
-			m.changeScene("index.fxml");
-		}
-		catch (Exception ex) {
-			ex.printStackTrace();
-		}
+	/**
+	 * Returns Student View fxml layout
+	 * @return Parent containing fxml layout
+	 * @throws IOException
+	 */
+	public Parent getStudentView() throws IOException {
+		Parent root = FXMLLoader.load(getClass().getResource("studentView.fxml"));
+		return root;
 	}
 }
