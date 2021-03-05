@@ -5,6 +5,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import model.Item;
 
 /**
  * Class that handles connection to and manipulation of the database.
@@ -57,20 +61,51 @@ public class DBController {
 	}
 	
 	/**
-	 * 
+	 * Searches for items in the database by title.
 	 * @param title String with item title
 	 * @return
 	 */
-	public String findItemsByTitle(String title) {
-		return "";
+	public List<Item> getItemsByTitle(String itemTitle) {
+		List<Item> result = null;
+		
+		try {
+			statement = connection.createStatement();
+			String sql = "SELECT * FROM books WHERE name='" + itemTitle + "';";
+			ResultSet resSet = statement.executeQuery(sql);
+			
+			result = new ArrayList<Item>();
+			
+			while (resSet.next()) {
+				Item entry = new Item();
+				
+				entry.setId(resSet.getString("id"));
+				entry.setTitle(resSet.getString("name"));
+				entry.setAuthor(resSet.getString("author"));
+				entry.setQuantity(resSet.getString("quantity"));
+				entry.setCategory(resSet.getString("category"));
+				entry.setType(resSet.getString("type"));
+				
+				result.add(entry);
+				
+				System.out.print(entry.getId() + " " + " " + entry.getTitle() + " " + entry.getAuthor() + "\n");
+			}
+			
+			resSet.close();
+			statement.close();
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		return result;
 	}
 	
 	/**
-	 * 
+	 * Searches for items in the database by author name.
 	 * @param author String with author name
 	 * @return
 	 */
-	public String findItemsByAuthor(String author) {
+	public String getItemsByAuthor(String itemAuthor) {
 		return "";
 	}
 	

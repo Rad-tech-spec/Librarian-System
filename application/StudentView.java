@@ -28,4 +28,8 @@ public class StudentView {
 	public void handleSearch(ActionEvent event) {
 		
 	}
+	
+	public void displayItems() {
+		
+	}
 }

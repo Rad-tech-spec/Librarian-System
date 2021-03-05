@@ -27,7 +27,7 @@ public class Main extends Application {
 			
 			DBController db = new DBController("jdbc:postgresql://ziggy.db.elephantsql.com:5432/efcagywl", "efcagywl", "PMMtt1RExmvYJXt37yaT0qxi5XQI5fci");
 			db.connect();
-			//db.getItems();
+			db.getItemsByTitle("Business");
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
