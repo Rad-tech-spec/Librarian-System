@@ -25,6 +25,7 @@
             		<FXCollections fx:factory="observableArrayList">
             			<String fx:id="titleParam" fx:value="by Title" />
             			<String fx:id="authorParam" fx:value="by Author" />
+            			<String fx:id="idParam" fx:value="by ID" />
             		</FXCollections>
             	</items>
             </ComboBox>

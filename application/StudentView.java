@@ -13,7 +13,10 @@ public class StudentView {
 	/**
 	 * Creates an instance of StudentView class
 	 */
-	public StudentView() { }
+	public StudentView() 
+	{ 
+		
+	}
 	
 	/**
 	 * Returns Student View fxml layout

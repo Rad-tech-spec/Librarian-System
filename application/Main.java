@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 import config.DBController;
+import model.ItemSearchAttribute;
 
 public class Main extends Application {
 	
@@ -27,7 +28,9 @@ public class Main extends Application {
 			
 			DBController db = new DBController("jdbc:postgresql://ziggy.db.elephantsql.com:5432/efcagywl", "efcagywl", "PMMtt1RExmvYJXt37yaT0qxi5XQI5fci");
 			db.connect();
-			db.getItemsByTitle("Business");
+			db.getItemsByAttribute(ItemSearchAttribute.TITLE, "Business");
+			
+			db.disconnect();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

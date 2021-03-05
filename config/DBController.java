@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Item;
+import model.ItemSearchAttribute;
 
 /**
  * Class that handles connection to and manipulation of the database.
@@ -61,16 +62,16 @@ public class DBController {
 	}
 	
 	/**
-	 * Searches for items in the database by title.
+	 * Searches for items in the database by provided attribute and its value.
 	 * @param title String with item title
 	 * @return
 	 */
-	public List<Item> getItemsByTitle(String itemTitle) {
+	public List<Item> getItemsByAttribute(ItemSearchAttribute attributeName, String itemTitle) {
 		List<Item> result = null;
 		
 		try {
 			statement = connection.createStatement();
-			String sql = "SELECT * FROM books WHERE name='" + itemTitle + "';";
+			String sql = "SELECT * FROM books WHERE " + attributeName.getAttributeName() + "='" + itemTitle + "';";
 			ResultSet resSet = statement.executeQuery(sql);
 			
 			result = new ArrayList<Item>();
@@ -101,36 +102,21 @@ public class DBController {
 	}
 	
 	/**
-	 * Searches for items in the database by author name.
-	 * @param author String with author name
-	 * @return
-	 */
-	public String getItemsByAuthor(String itemAuthor) {
-		return "";
-	}
-	
-	/**
 	 * Method to test retrieving of items from DB.
 	 */
-	public void getItems() {
-		try {
-			statement = connection.createStatement();
-			String sql = "SELECT * FROM books";
-			ResultSet resSet = statement.executeQuery(sql);
+	public void getItems() throws SQLException {
+		statement = connection.createStatement();
+		String sql = "SELECT * FROM books";
+		ResultSet resSet = statement.executeQuery(sql);
 			
-			while (resSet.next()) {
-				String id = resSet.getString("id");
-				String title = resSet.getString("name");
-				String author = resSet.getString("author");
-				
-				System.out.print(id + " " + " " + title + " " + author + "\n");
-			}
-			
-			resSet.close();
-			statement.close();
+		while (resSet.next()) {
+			String id = resSet.getString("id");
+			String title = resSet.getString("name");
+			String author = resSet.getString("author");
+			System.out.print(id + " " + " " + title + " " + author + "\n");
 		}
-		catch (Exception ex) {
-			ex.printStackTrace();
-		}
+		
+		resSet.close();
+		statement.close();
 	}
 }
