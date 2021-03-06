@@ -7,6 +7,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.paint.Color;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.collections.FXCollections;
@@ -53,6 +54,8 @@ public class StudentView {
 	
 	private ObservableList<Item> itemList = FXCollections.observableArrayList();
 	
+	private DBController db = new DBController();
+	
 	/**
 	 * Creates an instance of StudentView class
 	 */
@@ -90,12 +93,32 @@ public class StudentView {
 				}
 			}
 			else {
+				feedback.setTextFill(Color.web("#FF0000"));
 				feedback.setText("Please enter a search string");
 			}
 		}
 		else {
+			feedback.setTextFill(Color.web("#FF0000"));
 			feedback.setText("Please select a parameter");
 		}
+	}
+	
+	/**
+	 * Clears the input field and removes all <i>Items</i> from the table.
+	 * @param event
+	 */
+	public void handleClear(ActionEvent event) {
+		clearTable();
+		searchField.setText("");
+	}
+	
+	/**
+	 * 
+	 * @param event
+	 */
+	public void handleViewBorrowed(ActionEvent event) {
+		feedback.setTextFill(Color.web("#006400"));
+		feedback.setText("View Borrowed fired.");
 	}
 	
 	/**
@@ -105,13 +128,8 @@ public class StudentView {
 	private void displayItems(ItemSearchAttribute attributeName, String value) {
 		clearTable();
 		
-		DBController db = new DBController("jdbc:postgresql://ziggy.db.elephantsql.com:5432/efcagywl", "efcagywl", "PMMtt1RExmvYJXt37yaT0qxi5XQI5fci");
-		db.connect();
-		
 		List<Item> items = db.getItemsByAttribute(attributeName, value);
 		if (items != null && !items.isEmpty()) {
-			feedback.setText("");
-			
 			for (Item item : items) itemList.add(item);
 			
 			itemId.setCellValueFactory(new PropertyValueFactory<>("Id"));
@@ -123,16 +141,21 @@ public class StudentView {
 			itemLocation.setCellValueFactory(new PropertyValueFactory<>("Location"));
 			itemType.setCellValueFactory(new PropertyValueFactory<>("Type"));
 			dataTable.setItems(itemList);
+			
+			feedback.setTextFill(Color.web("#006400"));
+			feedback.setText("Found " + itemList.size() + (itemList.size() > 1 ? " entries" : " entry"));
 		}
 		else {
+			feedback.setTextFill(Color.web("#FF0000"));
 			feedback.setText("Nothing found");
 		}
-		
-		db.disconnect();
 	}
 	
 	/**
 	 * Removes all <i>Items</i> from the table.
 	 */
-	private void clearTable() { dataTable.getItems().clear(); }
+	private void clearTable() {
+		feedback.setText("");
+		dataTable.getItems().clear(); 
+	}
 }

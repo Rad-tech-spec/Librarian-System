@@ -12,18 +12,25 @@ import model.Item;
 import model.ItemSearchAttribute;
 
 /**
- * Class that handles connection to and manipulation of the Library database.
+ * Custom database controller.
+ * This class handles connection to and manipulation of the Library database.
  */
 public class DBController {
 	
-	private String jdbcURL;
-	private String username;
-	private String password;
+	private String jdbcURL = "jdbc:postgresql://ziggy.db.elephantsql.com:5432/efcagywl";
+	private String username = "efcagywl";
+	private String password = "PMMtt1RExmvYJXt37yaT0qxi5XQI5fci";
 	private Connection connection = null;
 	private Statement statement = null;
+	private ResultSet resSet = null;
 	
 	/**
-	 * Creates an instance of DBController.
+	 * Creates an instace of DBController with the default connection string.
+	 */
+	public DBController() { }
+	
+	/**
+	 * Creates an instance of DBController with the custom connection string.
 	 */
 	public DBController(String jdbcURL, String username, String password) {
 		this.jdbcURL = jdbcURL;
@@ -33,34 +40,37 @@ public class DBController {
 	
 	/**
 	 * Connects to the database.
-	 * @return Operation status (success or failure)
+	 * @return Operation success or failure (true / false)
 	 */
 	public boolean connect() {
 		try {
 			connection = DriverManager.getConnection(jdbcURL, username, password);
-			System.out.println("Connected to PostgreSQL server.");
 			return true;
 		}
-		catch (SQLException e) {
-			System.err.println("Unable to connect to PostgreSQL server.");
-			return false;
-		}
+		catch (SQLException e) { return false; }
 	}
 	
 	/**
 	 * Closes the connection with the database.
-	 * @return Operation status (success or failure)
+	 * @return Operation success or failure (true / false)
 	 */
 	public boolean disconnect() {
-		try {
-			connection.close();
-			System.out.println("Disconnected from PostgreSQL server.");
-			return true;
+		boolean success = true;
+		
+		if (resSet != null) {
+			try  { resSet.close(); }
+			catch (SQLException ex) { System.err.println("Unable to close result set."); success = false; }
 		}
-		catch (SQLException e) {
-			System.err.println("Unable to disconnect to PostgreSQL server.");
-			return false;
+		if (statement != null) {
+			try  { statement.close(); }
+			catch (SQLException ex) { System.err.println("Unable to close statement."); success = false; }
 		}
+		if (connection != null) {
+			try  { connection.close(); }
+			catch (SQLException ex) { System.err.println("Unable to disconnect from PostgreSQL server."); success = false; }
+		}
+		
+		return success;
 	}
 	
 	/**
@@ -72,12 +82,14 @@ public class DBController {
 		List<Item> result = null;
 		
 		try {
+			connect();
+			
 			statement = connection.createStatement();
 			String sql = (attributeName == ItemSearchAttribute.ID) ? 
 				("SELECT * FROM books WHERE " + attributeName.getAttributeName() + "=" + itemTitle + ";") :
 				("SELECT * FROM books WHERE " + attributeName.getAttributeName() + "='" + itemTitle + "';");
 
-			ResultSet resSet = statement.executeQuery(sql);
+			resSet = statement.executeQuery(sql);
 			
 			result = new ArrayList<Item>();
 			
@@ -93,20 +105,23 @@ public class DBController {
 				
 				result.add(entry);
 			}
-			
-			resSet.close();
-			statement.close();
 		}
 		catch (SQLException ex) {
 			ex.printStackTrace();
+		}
+		finally {
+			disconnect();
 		}
 		
 		return result;
 	}
 	
-	// TODO: getIssuedItems
-	
-	// TODO: getReturnedItems
+	// TODO: getBorrowedItems
+	public List<Item> getBorrowedItems() {
+		List<Item> borrowedItems = new ArrayList();
+		
+		return borrowedItems;
+	}
 	
 	/**
 	 * Creates a table in the database.

@@ -34,11 +34,11 @@
                   <Font size="24.0" />
                </font>
             </Label>
-            <Button fx:id="viewBorrowedBtn" layoutX="15.0" layoutY="185.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="198.0" text="View Borrowed Items">
+            <Button fx:id="viewBorrowedBtn" layoutX="15.0" layoutY="185.0" mnemonicParsing="false" onAction="#handleViewBorrowed" prefHeight="25.0" prefWidth="198.0" text="View Borrowed Items">
                <font>
                   <Font size="14.0" />
                </font></Button>
-            <Button fx:id="searchBtn" layoutX="15.0" layoutY="149.0" mnemonicParsing="false" onAction="#handleSearch" prefHeight="25.0" prefWidth="198.0" text="Search">
+            <Button fx:id="searchBtn" layoutX="15.0" layoutY="150.0" mnemonicParsing="false" onAction="#handleSearch" prefHeight="25.0" prefWidth="198.0" text="Search">
                <font>
                   <Font size="14.0" />
                </font></Button>
@@ -47,6 +47,11 @@
                   <Font size="14.0" />
                </font>
             </Label>
+            <Button fx:id="clearBtn" layoutX="15.0" layoutY="220.0" mnemonicParsing="false" onAction="#handleClear" prefHeight="25.0" prefWidth="198.0" text="Clear">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
    </left>
