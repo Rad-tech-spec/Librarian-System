@@ -54,9 +54,11 @@ public class DBController {
 	public boolean disconnect() {
 		try {
 			connection.close();
+			System.out.println("Disconnected from PostgreSQL server.");
 			return true;
 		}
 		catch (SQLException e) {
+			System.err.println("Unable to disconnect to PostgreSQL server.");
 			return false;
 		}
 	}
@@ -70,6 +72,8 @@ public class DBController {
 		List<Item> result = null;
 		
 		try {
+			// TODO: special case of ID
+			
 			statement = connection.createStatement();
 			String sql = "SELECT * FROM books WHERE " + attributeName.getAttributeName() + "='" + itemTitle + "';";
 			ResultSet resSet = statement.executeQuery(sql);
@@ -102,4 +106,11 @@ public class DBController {
 	// TODO: getIssuedItems
 	
 	// TODO: getReturnedItems
+	
+	/**
+	 * 
+	 */
+	public void createTable() {
+		
+	}
 }
