@@ -80,19 +80,17 @@ public class StudentViewController {
 		
 		if (selectedParameter != null) {
 			if (!searchField.getText().isBlank()) {
-				List<Item> items = null;
 				switch(selectedParameter) {
 					case "by Title":
-						items = db.getItemsByAttribute(ItemSearchAttribute.TITLE, searchField.getText());
+						displayItems(db.getItemsByAttribute(ItemSearchAttribute.TITLE, searchField.getText()));
 						break;
 					case "by Author":
-						items = db.getItemsByAttribute(ItemSearchAttribute.AUTHOR, searchField.getText());
+						displayItems(db.getItemsByAttribute(ItemSearchAttribute.AUTHOR, searchField.getText()));
 						break;
 					case "by ID":
-						items = db.getItemsByAttribute(ItemSearchAttribute.ID, searchField.getText());
+						displayItems(db.getItemsByAttribute(ItemSearchAttribute.ID, searchField.getText()));
 						break;
 				}
-				displayItems(items);
 			}
 			else {
 				feedback.setTextFill(Color.web("#FF0000"));
@@ -120,7 +118,7 @@ public class StudentViewController {
 	 */
 	public void viewBorrowedBtnClick(ActionEvent event) {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("borrowedItemsView.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("BorrowedItemsView.fxml"));
 			Parent root = loader.load();
 			BorrowedItemsViewController viewCtrl = loader.getController();
 			
@@ -138,9 +136,16 @@ public class StudentViewController {
 		}
 	}
 	
+	// TODO: handle Enter key press to search
+	
+	/**
+	 * 
+	 * @param studentId
+	 */
 	public void displayBorrowedItems(String studentId) {
 		auxiliaryStage.close();
 		feedback.setText(studentId);
+		displayItems(db.getBorrowedItems(studentId, true));
 	}
 	
 	/**

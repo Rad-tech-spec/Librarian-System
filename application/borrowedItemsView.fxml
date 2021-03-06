@@ -21,7 +21,7 @@
                   <Font size="14.0" />
                </font>
             </TextField>
-            <Button fx:id="confirmBtn" layoutX="14.0" layoutY="90.0" mnemonicParsing="false" onAction="#handleConfirmStudentId" prefHeight="25.0" prefWidth="270.0" text="Confirm">
+            <Button layoutX="14.0" layoutY="90.0" mnemonicParsing="false" onAction="#handleConfirmStudentId" prefHeight="25.0" prefWidth="270.0" text="Confirm">
                <font>
                   <Font size="14.0" />
                </font>

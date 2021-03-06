@@ -6,9 +6,8 @@ package model;
 public enum ItemSearchAttribute {
 	// Constants that represent attribute names
 	ID("id"),
-	TITLE("title"),
-	AUTHOR("author"),
-	STATUS("status");
+	TITLE("name"),
+	AUTHOR("author");
 	
 	/**
 	 * String value of attribute name

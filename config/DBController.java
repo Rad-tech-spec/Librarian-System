@@ -85,8 +85,8 @@ public class DBController {
 			connect();
 			statement = connection.createStatement();
 			String sql = (attributeName == ItemSearchAttribute.ID) ? 
-				("SELECT * FROM item WHERE " + attributeName.getAttributeName() + "=" + itemTitle + ";") :
-				("SELECT * FROM item WHERE " + attributeName.getAttributeName() + "='" + itemTitle + "';");
+				("SELECT * FROM items WHERE " + attributeName.getAttributeName() + "=" + itemTitle + ";") :
+				("SELECT * FROM items WHERE " + attributeName.getAttributeName() + "='" + itemTitle + "';");
 			resSet = statement.executeQuery(sql);
 			result = new ArrayList<Item>();
 			
@@ -94,7 +94,7 @@ public class DBController {
 				Item entry = new Item();
 				
 				entry.setId(resSet.getString("id"));
-				entry.setTitle(resSet.getString("title"));
+				entry.setTitle(resSet.getString("name"));
 				entry.setAuthor(resSet.getString("author"));
 				entry.setCategory(resSet.getString("category"));
 				entry.setStatus(resSet.getString("status"));
@@ -118,14 +118,42 @@ public class DBController {
 	 * @return
 	 */
 	public List<Item> getBorrowedItems(String studentId, boolean report) {
-		List<Item> borrowedItems = getItemsByAttribute(ItemSearchAttribute.STATUS, "borrowed");
-		if (report) generateReport(borrowedItems, "borrowed-items.txt");
+		List<Item> borrowedItems = null;
+		
+		try {
+			connect();
+			statement = connection.createStatement();
+			String sql = "SELECT * FROM items WHERE id = (SELECT id FROM issued WHERE student_id = " + studentId + ");";
+			resSet = statement.executeQuery(sql);
+			borrowedItems = new ArrayList<Item>();
+			
+			while (resSet.next()) {
+				Item entry = new Item();
+				
+				entry.setId(resSet.getString("id"));
+				entry.setTitle(resSet.getString("name"));
+				entry.setAuthor(resSet.getString("author"));
+				entry.setCategory(resSet.getString("category"));
+				entry.setStatus(resSet.getString("status"));
+				entry.setType(resSet.getString("type"));
+				
+				borrowedItems.add(entry);
+			}
+			
+			if (report) generateReport(borrowedItems, "borrowed-items.txt");
+		}
+		catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		finally {
+			disconnect();
+		}
 		
 		return borrowedItems;
 	}
 	
 	/**
-	 * Generates a report file based 
+	 * Generates a report file based on the <i>Items</i> List passed.
 	 */
 	private void generateReport(List<Item> items, String filename) {
 		
