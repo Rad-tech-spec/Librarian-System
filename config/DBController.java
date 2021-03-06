@@ -72,10 +72,11 @@ public class DBController {
 		List<Item> result = null;
 		
 		try {
-			// TODO: special case of ID
-			
 			statement = connection.createStatement();
-			String sql = "SELECT * FROM books WHERE " + attributeName.getAttributeName() + "='" + itemTitle + "';";
+			String sql = (attributeName == ItemSearchAttribute.ID) ? 
+				("SELECT * FROM books WHERE " + attributeName.getAttributeName() + "=" + itemTitle + ";") :
+				("SELECT * FROM books WHERE " + attributeName.getAttributeName() + "='" + itemTitle + "';");
+
 			ResultSet resSet = statement.executeQuery(sql);
 			
 			result = new ArrayList<Item>();
