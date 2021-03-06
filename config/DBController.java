@@ -23,7 +23,7 @@ public class DBController {
 	private Statement statement = null;
 	
 	/**
-	 * Creates an instance of DBConnector.
+	 * Creates an instance of DBController.
 	 */
 	public DBController(String jdbcURL, String username, String password) {
 		this.jdbcURL = jdbcURL;
