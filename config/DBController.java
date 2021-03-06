@@ -97,7 +97,7 @@ public class DBController {
 			resSet.close();
 			statement.close();
 		}
-		catch (Exception ex) {
+		catch (SQLException ex) {
 			ex.printStackTrace();
 		}
 		
@@ -109,9 +109,16 @@ public class DBController {
 	// TODO: getReturnedItems
 	
 	/**
-	 * 
+	 * Creates a table in the database.
 	 */
 	public void createTable() {
-		
+		try {
+			statement = connection.createStatement();
+			String sql = "";
+			statement.executeQuery(sql);
+		}
+		catch (SQLException ex) {
+			ex.printStackTrace();
+		}
 	}
 }
