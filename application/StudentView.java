@@ -98,6 +98,8 @@ public class StudentView {
 	 * @param value
 	 */
 	private void displayItems(ItemSearchAttribute attributeName, String value) {
+		clearTable();
+		
 		DBController db = new DBController("jdbc:postgresql://ziggy.db.elephantsql.com:5432/efcagywl", "efcagywl", "PMMtt1RExmvYJXt37yaT0qxi5XQI5fci");
 		db.connect();
 		
@@ -123,4 +125,9 @@ public class StudentView {
 		
 		db.disconnect();
 	}
+	
+	/**
+	 * Removes all <i>Items</i> from the table.
+	 */
+	private void clearTable() { dataTable.getItems().clear(); }
 }
