@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.StudentView">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.StudentViewController">
    <left>
       <AnchorPane prefHeight="720.0" prefWidth="300.0" style="-fx-background-color: #fafafa;" BorderPane.alignment="CENTER">
          <children>
@@ -34,7 +34,7 @@
                   <Font size="24.0" />
                </font>
             </Label>
-            <Button fx:id="viewBorrowedBtn" layoutX="15.0" layoutY="185.0" mnemonicParsing="false" onAction="#handleViewBorrowed" prefHeight="25.0" prefWidth="198.0" text="View Borrowed Items">
+            <Button fx:id="viewBorrowedBtn" layoutX="15.0" layoutY="185.0" mnemonicParsing="false" onAction="#viewBorrowedBtnClick" prefHeight="25.0" prefWidth="198.0" text="View Borrowed Items">
                <font>
                   <Font size="14.0" />
                </font></Button>
@@ -58,19 +58,17 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <TableView fx:id="dataTable" layoutY="14.0" prefHeight="555.0" prefWidth="767.0">
+            <TableView fx:id="dataTable" layoutY="14.0" prefHeight="566.0" prefWidth="767.0">
               <columns>
                 <TableColumn fx:id="itemId" prefWidth="90.0" text="ID" />
                 <TableColumn fx:id="itemTitle" prefWidth="129.0" text="Title" />
-                  <TableColumn fx:id="itemAuthor" prefWidth="108.0" text="Author" />
-                  <TableColumn fx:id="itemQuantity" prefWidth="71.0" text="Quantity" />
-                  <TableColumn fx:id="itemCategory" prefWidth="108.0" text="Category" />
-                  <TableColumn fx:id="itemStatus" prefWidth="75.0" text="Status" />
-                  <TableColumn fx:id="itemLocation" minWidth="0.0" prefWidth="105.0" text="Location" />
-                  <TableColumn fx:id="itemType" prefWidth="79.0" text="Type" />
+                  <TableColumn fx:id="itemAuthor" prefWidth="115.0" text="Author" />
+                  <TableColumn fx:id="itemCategory" prefWidth="158.0" text="Category" />
+                  <TableColumn fx:id="itemStatus" prefWidth="128.0" text="Status" />
+                  <TableColumn fx:id="itemType" prefWidth="146.0" text="Type" />
               </columns>
             </TableView>
-            <Button fx:id="requestBtn" layoutX="3.0" layoutY="576.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="197.0" text="Request the item">
+            <Button fx:id="requestBtn" layoutX="3.0" layoutY="588.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="197.0" text="Request the item">
                <font>
                   <Font size="14.0" />
                </font></Button>

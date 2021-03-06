@@ -9,10 +9,8 @@ public class Item {
 	private SimpleStringProperty id;
 	private SimpleStringProperty title;
 	private SimpleStringProperty author;
-	private SimpleStringProperty quantity;
 	private SimpleStringProperty category;
 	private SimpleStringProperty status;
-	private SimpleStringProperty location;
 	private SimpleStringProperty type;
 	
 	/**
@@ -22,10 +20,8 @@ public class Item {
 		setId("");
 		setTitle("");
 		setAuthor("");
-		setQuantity("");
 		setCategory("");
 		setStatus("");
-		setLocation("");
 		setType("");
 	}
 	
@@ -38,14 +34,12 @@ public class Item {
 	 * @param category Item category
 	 * @param type Item type
 	 */
-	public Item(String id, String title, String author, String quantity, String category, String type) {
+	public Item(String id, String title, String author, String category, String status, String type) {
 		setId(id);
 		setTitle(title);
 		setAuthor(author);
-		setQuantity(quantity);
 		setCategory(category);
-		setStatus("");
-		setLocation("");
+		setStatus(status);
 		setType(type);
 	}
 	
@@ -61,10 +55,6 @@ public class Item {
 
 	public String getAuthor() { return author.get(); }
 	
-	public void setQuantity(String quantity) { this.quantity = new SimpleStringProperty(quantity); }
-
-	public String getQuantity() { return quantity.get(); }
-	
 	public void setCategory(String category) { this.category = new SimpleStringProperty(category); }
 
 	public String getCategory() { return category.get(); }
@@ -72,10 +62,6 @@ public class Item {
 	public void setStatus(String status) { this.status = new SimpleStringProperty(status); }
 
 	public String getStatus() { return status.get(); }
-	
-	public void setLocation(String location) { this.location = new SimpleStringProperty(location); }
-
-	public String getLocation() { return location.get(); }
 	
 	public void setType(String type) { this.type = new SimpleStringProperty(type); }
 

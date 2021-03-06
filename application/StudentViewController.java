@@ -1,6 +1,7 @@
 package application;
 
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -8,6 +9,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.collections.FXCollections;
@@ -22,11 +24,11 @@ import model.Item;
 import model.ItemSearchAttribute;
 
 /**
- * This class is responsible for loading Student View (studentView.fxml) and handling its events.
+ * This class is responsible for handling Student View events.
  * 
  * @author Nikita Mezhenskyi
  */
-public class StudentView {
+public class StudentViewController {
 	@FXML
 	private TextField searchField;
 	@FXML
@@ -42,15 +44,13 @@ public class StudentView {
 	@FXML
 	private TableColumn<Item, String> itemAuthor;
 	@FXML
-	private TableColumn<Item, String> itemQuantity;
-	@FXML
 	private TableColumn<Item, String> itemCategory;
 	@FXML
 	private TableColumn<Item, String> itemStatus;
 	@FXML
-	private TableColumn<Item, String> itemLocation;
-	@FXML
 	private TableColumn<Item, String> itemType;
+	
+	private Stage auxiliaryStage = null;
 	
 	private ObservableList<Item> itemList = FXCollections.observableArrayList();
 	
@@ -59,7 +59,7 @@ public class StudentView {
 	/**
 	 * Creates an instance of StudentView class
 	 */
-	public StudentView() { }
+	public StudentViewController() { }
 	
 	/**
 	 * Returns Student View fxml layout
@@ -67,7 +67,7 @@ public class StudentView {
 	 * @throws IOException
 	 */
 	public Parent getStudentView() throws IOException {
-		Parent root = FXMLLoader.load(getClass().getResource("studentView.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("StudentView.fxml"));
 		return root;
 	}
 	
@@ -118,9 +118,29 @@ public class StudentView {
 	 * Handles <i>view borrowed items</i> event. Displays <i>Items</i> from the database that were borrowed.
 	 * @param event
 	 */
-	public void handleViewBorrowed(ActionEvent event) {
-		List<Item> items = db.getBorrowedItems(true);
-		displayItems(items);
+	public void viewBorrowedBtnClick(ActionEvent event) {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("borrowedItemsView.fxml"));
+			Parent root = loader.load();
+			BorrowedItemsViewController viewCtrl = loader.getController();
+			
+			// Pass reference to the BorrowedItemsView
+			viewCtrl.setStudentView(this);
+			
+			auxiliaryStage = new Stage();
+			auxiliaryStage.setResizable(false);
+			auxiliaryStage.setTitle("View Borrowed Items");
+			auxiliaryStage.setScene(new Scene(root));
+			auxiliaryStage.show();
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	public void displayBorrowedItems(String studentId) {
+		auxiliaryStage.close();
+		feedback.setText(studentId);
 	}
 	
 	/**
@@ -136,10 +156,8 @@ public class StudentView {
 			itemId.setCellValueFactory(new PropertyValueFactory<>("Id"));
 			itemTitle.setCellValueFactory(new PropertyValueFactory<>("Title"));
 			itemAuthor.setCellValueFactory(new PropertyValueFactory<>("Author"));
-			itemQuantity.setCellValueFactory(new PropertyValueFactory<>("Quantity"));
 			itemCategory.setCellValueFactory(new PropertyValueFactory<>("Category"));
 			itemStatus.setCellValueFactory(new PropertyValueFactory<>("Status"));
-			itemLocation.setCellValueFactory(new PropertyValueFactory<>("Location"));
 			itemType.setCellValueFactory(new PropertyValueFactory<>("Type"));
 			dataTable.setItems(itemList);
 			

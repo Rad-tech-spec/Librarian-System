@@ -14,7 +14,7 @@ public class Main extends Application {
 		try {
 			currentStage = primaryStage;
 			
-			StudentView panel = new StudentView();
+			StudentViewController panel = new StudentViewController();
 			Scene scene = new Scene(panel.getStudentView(), 1080, 720);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			
@@ -28,6 +28,8 @@ public class Main extends Application {
 	}
 	
 	// TODO: Request a book Scene
+	
+	// TODO: View borrowed items
 	
 	public void changeScene(Parent newRoot) {
 		try {

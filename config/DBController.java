@@ -85,8 +85,8 @@ public class DBController {
 			connect();
 			statement = connection.createStatement();
 			String sql = (attributeName == ItemSearchAttribute.ID) ? 
-				("SELECT * FROM books WHERE " + attributeName.getAttributeName() + "=" + itemTitle + ";") :
-				("SELECT * FROM books WHERE " + attributeName.getAttributeName() + "='" + itemTitle + "';");
+				("SELECT * FROM item WHERE " + attributeName.getAttributeName() + "=" + itemTitle + ";") :
+				("SELECT * FROM item WHERE " + attributeName.getAttributeName() + "='" + itemTitle + "';");
 			resSet = statement.executeQuery(sql);
 			result = new ArrayList<Item>();
 			
@@ -94,10 +94,10 @@ public class DBController {
 				Item entry = new Item();
 				
 				entry.setId(resSet.getString("id"));
-				entry.setTitle(resSet.getString("name"));
+				entry.setTitle(resSet.getString("title"));
 				entry.setAuthor(resSet.getString("author"));
-				entry.setQuantity(resSet.getString("quantity"));
 				entry.setCategory(resSet.getString("category"));
+				entry.setStatus(resSet.getString("status"));
 				entry.setType(resSet.getString("type"));
 				
 				result.add(entry);
@@ -117,24 +117,9 @@ public class DBController {
 	 * 
 	 * @return
 	 */
-	public List<Item> getBorrowedItems(boolean report) {
-		List<Item> borrowedItems = null;
-		
-		try {
-			connect();
-			statement = connection.createStatement();
-			String sql = "SELECT * FROM borrowed";
-			resSet = statement.executeQuery(sql);
-			borrowedItems = new ArrayList<Item>();
-			
-			if (report) generateReport(borrowedItems, "borrowed-items.txt");
-		}
-		catch (SQLException ex) {
-			ex.printStackTrace();
-		}
-		finally {
-			disconnect();
-		}
+	public List<Item> getBorrowedItems(String studentId, boolean report) {
+		List<Item> borrowedItems = getItemsByAttribute(ItemSearchAttribute.STATUS, "borrowed");
+		if (report) generateReport(borrowedItems, "borrowed-items.txt");
 		
 		return borrowedItems;
 	}
