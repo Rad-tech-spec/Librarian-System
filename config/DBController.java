@@ -152,6 +152,7 @@ public class DBController {
 		return borrowedItems;
 	}
 	
+	// TODO: generate report
 	/**
 	 * Generates a report file based on the <i>Items</i> List passed.
 	 */
