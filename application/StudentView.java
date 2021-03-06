@@ -76,16 +76,21 @@ public class StudentView {
 		String selectedParameter = parameterSelector.getSelectionModel().getSelectedItem();
 		
 		if (selectedParameter != null) {
-			switch(selectedParameter) {
-				case "by Title":
-					displayItems(ItemSearchAttribute.TITLE, searchField.getText());
-					break;
-				case "by Author":
-					displayItems(ItemSearchAttribute.AUTHOR, searchField.getText());
-					break;
-				case "by ID":
-					displayItems(ItemSearchAttribute.ID, searchField.getText());
-					break;
+			if (!searchField.getText().isBlank()) {
+				switch(selectedParameter) {
+					case "by Title":
+						displayItems(ItemSearchAttribute.TITLE, searchField.getText());
+						break;
+					case "by Author":
+						displayItems(ItemSearchAttribute.AUTHOR, searchField.getText());
+						break;
+					case "by ID":
+						displayItems(ItemSearchAttribute.ID, searchField.getText());
+						break;
+				}
+			}
+			else {
+				feedback.setText("Please enter a search string");
 			}
 		}
 		else {
