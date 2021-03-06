@@ -44,6 +44,8 @@ public class Item {
 		setAuthor(author);
 		setQuantity(quantity);
 		setCategory(category);
+		setStatus("");
+		setLocation("");
 		setType(type);
 	}
 	
