@@ -83,14 +83,11 @@ public class DBController {
 		
 		try {
 			connect();
-			
 			statement = connection.createStatement();
 			String sql = (attributeName == ItemSearchAttribute.ID) ? 
 				("SELECT * FROM books WHERE " + attributeName.getAttributeName() + "=" + itemTitle + ";") :
 				("SELECT * FROM books WHERE " + attributeName.getAttributeName() + "='" + itemTitle + "';");
-
 			resSet = statement.executeQuery(sql);
-			
 			result = new ArrayList<Item>();
 			
 			while (resSet.next()) {
@@ -116,24 +113,36 @@ public class DBController {
 		return result;
 	}
 	
-	// TODO: getBorrowedItems
-	public List<Item> getBorrowedItems() {
-		List<Item> borrowedItems = new ArrayList();
+	/**
+	 * 
+	 * @return
+	 */
+	public List<Item> getBorrowedItems(boolean report) {
+		List<Item> borrowedItems = null;
+		
+		try {
+			connect();
+			statement = connection.createStatement();
+			String sql = "SELECT * FROM borrowed";
+			resSet = statement.executeQuery(sql);
+			borrowedItems = new ArrayList<Item>();
+			
+			if (report) generateReport(borrowedItems, "borrowed-items.txt");
+		}
+		catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		finally {
+			disconnect();
+		}
 		
 		return borrowedItems;
 	}
 	
 	/**
-	 * Creates a table in the database.
+	 * Generates a report file based 
 	 */
-	public void createTable() {
-		try {
-			statement = connection.createStatement();
-			String sql = "";
-			statement.executeQuery(sql);
-		}
-		catch (SQLException ex) {
-			ex.printStackTrace();
-		}
+	private void generateReport(List<Item> items, String filename) {
+		
 	}
 }

@@ -72,7 +72,7 @@ public class StudentView {
 	}
 	
 	/**
-	 * Handles Search Item event. Displays <i>Items</i> from the database based on search parameters.
+	 * Handles <i>search Item</i> event. Displays <i>Items</i> from the database based on search parameters.
 	 * @param event
 	 */
 	public void handleSearch(ActionEvent event) {
@@ -80,17 +80,19 @@ public class StudentView {
 		
 		if (selectedParameter != null) {
 			if (!searchField.getText().isBlank()) {
+				List<Item> items = null;
 				switch(selectedParameter) {
 					case "by Title":
-						displayItems(ItemSearchAttribute.TITLE, searchField.getText());
+						items = db.getItemsByAttribute(ItemSearchAttribute.TITLE, searchField.getText());
 						break;
 					case "by Author":
-						displayItems(ItemSearchAttribute.AUTHOR, searchField.getText());
+						items = db.getItemsByAttribute(ItemSearchAttribute.AUTHOR, searchField.getText());
 						break;
 					case "by ID":
-						displayItems(ItemSearchAttribute.ID, searchField.getText());
+						items = db.getItemsByAttribute(ItemSearchAttribute.ID, searchField.getText());
 						break;
 				}
+				displayItems(items);
 			}
 			else {
 				feedback.setTextFill(Color.web("#FF0000"));
@@ -113,22 +115,21 @@ public class StudentView {
 	}
 	
 	/**
-	 * 
+	 * Handles <i>view borrowed items</i> event. Displays <i>Items</i> from the database that were borrowed.
 	 * @param event
 	 */
 	public void handleViewBorrowed(ActionEvent event) {
-		feedback.setTextFill(Color.web("#006400"));
-		feedback.setText("View Borrowed fired.");
+		List<Item> items = db.getBorrowedItems(true);
+		displayItems(items);
 	}
 	
 	/**
-	 * Displays <i>Items</i> from the database in the dataTable.
+	 * Displays <i>Items</i> from the database in the table.
 	 * @param value
 	 */
-	private void displayItems(ItemSearchAttribute attributeName, String value) {
+	private void displayItems(List<Item> items) {
 		clearTable();
 		
-		List<Item> items = db.getItemsByAttribute(attributeName, value);
 		if (items != null && !items.isEmpty()) {
 			for (Item item : items) itemList.add(item);
 			
