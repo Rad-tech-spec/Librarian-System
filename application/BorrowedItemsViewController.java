@@ -16,16 +16,19 @@ public class BorrowedItemsViewController {
 	private TextField studentIdField;
 	@FXML
 	private Label feedback;
-	
+	/**
+	 * Holds reference to the parent Student View Controller.
+	 */
 	private StudentViewController studentViewController;
 	
 	/**
-	 * Creates an instance of BorrowedItemsView class
+	 * Creates an instance of BorrowedItemsView class.
 	 */
 	public BorrowedItemsViewController() { }
 	
 	/**
-	 * 
+	 * Handles confirm button click.
+	 * Sends student id back to the Student View Controller to display borrowed <i>Items</i>.
 	 * @param event
 	 */
 	public void handleConfirmStudentId(ActionEvent event) {
@@ -38,7 +41,7 @@ public class BorrowedItemsViewController {
 	}
 	
 	/**
-	 * Sets the reference to the Student View Contoller
+	 * Sets the reference to the Student View Contoller.
 	 * @param studentView Reference to the Student View Controller
 	 */
 	public void setStudentView(StudentViewController studentViewController) {
