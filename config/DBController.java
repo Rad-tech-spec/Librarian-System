@@ -184,7 +184,8 @@ public class DBController {
 			for (int i = 0; i < 135; ++i)
 				out.write("=" + (i == 134 ? "\n" : ""));
 			
-			out.write("\nDate generated: " + (new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())) + "\n");
+			out.write("\nNumber of items found: " + items.size() + "\n");
+			out.write("Date generated: " + (new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())) + "\n");
 		}
 		catch (IOException ex) { System.err.print("Error occurred while generating a report."); }
 	}

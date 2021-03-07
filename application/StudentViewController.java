@@ -172,6 +172,7 @@ public class StudentViewController {
 	public void displayBorrowedItems(String studentId) {
 		auxiliaryStage.close();
 		displayItems(db.getBorrowedItems(studentId, true));
+		if (feedback.getText().contains("Found")) feedback.setText(feedback.getText() + ", report file generated");
 	}
 	
 	/**
