@@ -3,7 +3,10 @@ package model;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
- * This class represents an Item stored in the <i>Library</i>.
+ * This class represents an item stored in the <i>Library</i>.
+ * 
+ * @author Nikita Mezhenskyi
+ * @version 1.0.0, 2021-03-07
  */
 public class Item {
 	private SimpleStringProperty id;

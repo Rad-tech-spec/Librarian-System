@@ -27,6 +27,7 @@ import model.ItemSearchAttribute;
  * This class is responsible for handling Student View events.
  * 
  * @author Nikita Mezhenskyi
+ * @version 2.0.0, 2021-03-07
  */
 public class StudentViewController {
 	@FXML
@@ -57,12 +58,12 @@ public class StudentViewController {
 	private DBController db = new DBController();
 	
 	/**
-	 * Creates an instance of StudentView class
+	 * Creates an instance of StudentView class.
 	 */
 	public StudentViewController() { }
 	
 	/**
-	 * Returns Student View fxml layout
+	 * Returns Student View fxml layout.
 	 * @return Parent containing fxml layout
 	 * @throws IOException
 	 */
@@ -72,7 +73,7 @@ public class StudentViewController {
 	}
 	
 	/**
-	 * Handles <i>search Item</i> event. Displays <i>Items</i> from the database based on search parameters.
+	 * Handles search <i>Item</i> event. Displays <i>Items</i> from the database based on search parameters.
 	 * @param event
 	 */
 	public void handleSearch(ActionEvent event) {
@@ -104,6 +105,12 @@ public class StudentViewController {
 	}
 	
 	/**
+	 * Handles enter key press while focusing on the text field.
+	 * Calls handleSearch event.
+	 */
+	public void handleEnterPress(ActionEvent event) { handleSearch(event); }
+	
+	/**
 	 * Clears the input field and removes all <i>Items</i> from the table.
 	 * @param event
 	 */
@@ -113,7 +120,7 @@ public class StudentViewController {
 	}
 	
 	/**
-	 * Handles <i>view borrowed items</i> event. Displays <i>Items</i> from the database that were borrowed.
+	 * Handles view borrowed items event. Displays <i>Items</i> from the database that were borrowed.
 	 * @param event
 	 */
 	public void viewBorrowedBtnClick(ActionEvent event) {
@@ -122,7 +129,7 @@ public class StudentViewController {
 			Parent root = loader.load();
 			BorrowedItemsViewController viewCtrl = loader.getController();
 			
-			// Pass reference to the BorrowedItemsView
+			// Pass a reference to the BorrowedItemsView
 			viewCtrl.setStudentView(this);
 			
 			auxiliaryStage = new Stage();
@@ -136,7 +143,18 @@ public class StudentViewController {
 		}
 	}
 	
-	// TODO: handle Enter key press to search
+	/**
+	 * Handles request an <i>Item</i> event.
+	 * @param event
+	 */
+	public void handleRequestItem(ActionEvent event) {
+		Item selectedItem = dataTable.getSelectionModel().getSelectedItem();
+		if (selectedItem != null) {
+			db.requestItem(selectedItem);
+			feedback.setTextFill(Color.web("#006400"));
+			feedback.setText("Item #" + selectedItem.getId() + " has been requested");
+		}
+	}
 	
 	/**
 	 * Displays <i>Items</i> from the database in the table.

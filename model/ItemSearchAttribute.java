@@ -2,6 +2,9 @@ package model;
 
 /**
  * Represents valid attributes for searching the <i>Item</i> in the database.
+ * 
+ * @author Nikita Mezhenskyi
+ * @version 1.0.0, 2021-03-07
  */
 public enum ItemSearchAttribute {
 	// Constants that represent attribute names

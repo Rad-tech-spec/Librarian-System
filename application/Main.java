@@ -14,7 +14,6 @@ public class Main extends Application {
 			currentStage = primaryStage;
 			StudentViewController panel = new StudentViewController();
 			Scene scene = new Scene(panel.getStudentView(), 1080, 720);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			currentStage.setResizable(false);
 			currentStage.setTitle("Library Application | Student View");
 			currentStage.setScene(scene);

@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
  * This class is responsible for handling Borrowed Items View events.
  * 
  * @author Nikita Mezhenskyi
+ * @version 1.0.0, 2021-03-07
  */
 public class BorrowedItemsViewController {
 	@FXML
@@ -17,7 +18,7 @@ public class BorrowedItemsViewController {
 	@FXML
 	private Label feedback;
 	/**
-	 * Holds reference to the parent Student View Controller.
+	 * Holds a reference to the parent Student View Controller.
 	 */
 	private StudentViewController studentViewController;
 	

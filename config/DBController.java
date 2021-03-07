@@ -20,6 +20,9 @@ import model.ItemSearchAttribute;
 /**
  * Custom database controller.
  * This class handles connection to and manipulation of the <i>Library</i> database.
+ * 
+ * @author Nikita Mezhenskyi
+ * @version 2.3.0, 2021-03-07
  */
 public class DBController {
 	
@@ -48,7 +51,7 @@ public class DBController {
 	 * Connects to the database.
 	 * @return Operation success or failure (true / false)
 	 */
-	public boolean connect() {
+	private boolean connect() {
 		try {
 			connection = DriverManager.getConnection(jdbcURL, username, password);
 			return true;
@@ -60,7 +63,7 @@ public class DBController {
 	 * Closes the connection with the database.
 	 * @return Operation success or failure (true / false)
 	 */
-	public boolean disconnect() {
+	private boolean disconnect() {
 		boolean success = true;
 		
 		if (resSet != null) {
@@ -148,12 +151,8 @@ public class DBController {
 			
 			if (report) generateReport(borrowedItems, "borrowed_items_" + studentId + ".txt");
 		}
-		catch (SQLException ex) {
-			ex.printStackTrace();
-		}
-		finally {
-			disconnect();
-		}
+		catch (SQLException ex) { ex.printStackTrace(); }
+		finally { disconnect(); }
 		
 		return borrowedItems;
 	}
@@ -188,5 +187,9 @@ public class DBController {
 			out.write("Date generated: " + (new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())) + "\n");
 		}
 		catch (IOException ex) { System.err.print("Error occurred while generating a report."); }
+	}
+	
+	public void requestItem(Item item) {
+		
 	}
 }

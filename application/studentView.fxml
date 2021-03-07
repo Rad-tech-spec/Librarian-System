@@ -16,7 +16,7 @@
    <left>
       <AnchorPane prefHeight="720.0" prefWidth="300.0" style="-fx-background-color: #fafafa;" BorderPane.alignment="CENTER">
          <children>
-            <TextField fx:id="searchField" layoutX="14.0" layoutY="112.0" prefHeight="25.0" prefWidth="198.0" promptText="Search by parameter">
+            <TextField fx:id="searchField" layoutX="14.0" layoutY="112.0" onAction="#handleEnterPress" prefHeight="25.0" prefWidth="198.0" promptText="Search by parameter">
                <font>
                   <Font size="14.0" />
                </font></TextField>
@@ -68,7 +68,7 @@
                   <TableColumn fx:id="itemType" prefWidth="146.0" text="Type" />
               </columns>
             </TableView>
-            <Button fx:id="requestBtn" layoutX="3.0" layoutY="588.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="197.0" text="Request the item">
+            <Button fx:id="requestBtn" layoutX="3.0" layoutY="588.0" mnemonicParsing="false" onAction="#handleRequestItem" prefHeight="25.0" prefWidth="197.0" text="Request the item">
                <font>
                   <Font size="14.0" />
                </font></Button>
