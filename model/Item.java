@@ -14,7 +14,7 @@ public class Item {
 	private SimpleStringProperty type;
 	
 	/**
-	 * Creates an empty instance of Item.
+	 * Creates an empty instance of <i>Item</i>.
 	 */
 	public Item() { 
 		setId("");
@@ -26,7 +26,7 @@ public class Item {
 	}
 	
 	/**
-	 * Creates an instance of Item with given properties.
+	 * Creates an instance of <i>Item</i> with provided values.
 	 * @param id Item id
 	 * @param title Item title
 	 * @param author Item author
@@ -66,4 +66,9 @@ public class Item {
 	public void setType(String type) { this.type = new SimpleStringProperty(type); }
 
 	public String getType() { return type.get(); }
+	
+	@Override
+	public String toString() {
+		return String.format("| %-6s | %-30s | %-25s | %-25s | %-15s | %-15s |\n", getId(), getTitle(), getAuthor(), getCategory(), getStatus(), getType());
+	}
 }

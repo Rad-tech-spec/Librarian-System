@@ -139,16 +139,6 @@ public class StudentViewController {
 	// TODO: handle Enter key press to search
 	
 	/**
-	 * 
-	 * @param studentId
-	 */
-	public void displayBorrowedItems(String studentId) {
-		auxiliaryStage.close();
-		feedback.setText(studentId);
-		displayItems(db.getBorrowedItems(studentId, true));
-	}
-	
-	/**
 	 * Displays <i>Items</i> from the database in the table.
 	 * @param value
 	 */
@@ -173,6 +163,15 @@ public class StudentViewController {
 			feedback.setTextFill(Color.web("#FF0000"));
 			feedback.setText("Nothing found");
 		}
+	}
+	
+	/**
+	 * 
+	 * @param studentId
+	 */
+	public void displayBorrowedItems(String studentId) {
+		auxiliaryStage.close();
+		displayItems(db.getBorrowedItems(studentId, true));
 	}
 	
 	/**

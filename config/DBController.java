@@ -1,11 +1,17 @@
 package config;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat; 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import model.Item;
@@ -13,7 +19,7 @@ import model.ItemSearchAttribute;
 
 /**
  * Custom database controller.
- * This class handles connection to and manipulation of the Library database.
+ * This class handles connection to and manipulation of the <i>Library</i> database.
  */
 public class DBController {
 	
@@ -75,8 +81,10 @@ public class DBController {
 	
 	/**
 	 * Searches for items in the database by specified attribute name and its value.
-	 * @param title String with item title
-	 * @return
+	 * Return a list with <i>Items</i> found.
+	 * @param attributeName Constant of ItemSearchAttribute enum type
+	 * @param itemTitle String with item title
+	 * @return Item list
 	 */
 	public List<Item> getItemsByAttribute(ItemSearchAttribute attributeName, String itemTitle) {
 		List<Item> result = null;
@@ -103,18 +111,16 @@ public class DBController {
 				result.add(entry);
 			}
 		}
-		catch (SQLException ex) {
-			ex.printStackTrace();
-		}
-		finally {
-			disconnect();
-		}
+		catch (SQLException ex) { ex.printStackTrace(); }
+		finally { disconnect(); }
 		
 		return result;
 	}
 	
 	/**
 	 * 
+	 * @param studentId
+	 * @param report
 	 * @return
 	 */
 	public List<Item> getBorrowedItems(String studentId, boolean report) {
@@ -140,7 +146,7 @@ public class DBController {
 				borrowedItems.add(entry);
 			}
 			
-			if (report) generateReport(borrowedItems, "borrowed-items.txt");
+			if (report) generateReport(borrowedItems, "borrowed_items_" + studentId + ".txt");
 		}
 		catch (SQLException ex) {
 			ex.printStackTrace();
@@ -152,11 +158,34 @@ public class DBController {
 		return borrowedItems;
 	}
 	
-	// TODO: generate report
 	/**
-	 * Generates a report file based on the <i>Items</i> List passed.
+	 * Generates a report file based on the <i>Items</i> list passed.
+	 * @param items List with <i>Items</i>
+	 * @param fileName String representing a file used to generate a report
 	 */
-	private void generateReport(List<Item> items, String filename) {
+	private void generateReport(List<Item> items, String fileName) {
+		File outputFile = new File(fileName);
 		
+		try (BufferedWriter out = new BufferedWriter(new FileWriter(fileName))) {
+			outputFile.createNewFile();
+			
+			for (int i = 0; i < 135; ++i)
+				out.write("=" + (i == 134 ? "\n" : ""));
+			
+			out.write(String.format("| %6s | %30s | %25s | %25s | %15s | %15s |\n",
+					"Id  ", "Title            ", "Author         ", "Category        ", "Status    ", "Type     "));
+			
+			for (int i = 0; i < 135; ++i)
+				out.write("=" + (i == 134 ? "\n" : ""));
+			
+			for (Item item : items)
+				out.write(item.toString());
+			
+			for (int i = 0; i < 135; ++i)
+				out.write("=" + (i == 134 ? "\n" : ""));
+			
+			out.write("\nDate generated: " + (new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())) + "\n");
+		}
+		catch (IOException ex) { System.err.print("Error occurred while generating a report."); }
 	}
 }
