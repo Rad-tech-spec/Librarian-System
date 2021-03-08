@@ -68,12 +68,17 @@ public class RequestItemViewController {
 		this.parentFeedback = parentFeedback;
 	}
 	
+	/**
+	 * Handles requesting of <i>Item</i> after user fills text fields and clicks confirm button.
+	 * 
+	 * @param event
+	 */
 	public void handleConfirmStudentData(ActionEvent event) {
 		boolean valid = true;
 		
 		String studentStanding = standingSelection.getSelectionModel().getSelectedItem();
 		String degreeLevel = degreeLevelSelection.getSelectionModel().getSelectedItem();
-		
+		 
 		if (studentIdField.getText().isBlank()) {
 			feedback.setTextFill(Color.web("#FF0000"));
 			feedback.setText("Please enter your Student ID");
@@ -112,8 +117,15 @@ public class RequestItemViewController {
 			
 			if (requestedItem != null && parentFeedback != null && studentViewController != null) {
 				String requestNum = db.requestItem(requestedItem, student);
-				parentFeedback.setTextFill(Color.web("#006400"));
-				parentFeedback.setText("Item requested, your request #" + requestNum);
+				
+				if (requestNum != null) {
+					parentFeedback.setTextFill(Color.web("#006400"));
+					parentFeedback.setText("Item requested, your request #" + requestNum);
+				}
+				else {
+					parentFeedback.setTextFill(Color.web("#FF0000"));
+					parentFeedback.setText("Cannot make a request: database error");
+				}
 				
 				// Close the Request Item View
 				studentViewController.closeAuxiliaryStage();

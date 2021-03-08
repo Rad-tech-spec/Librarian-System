@@ -30,6 +30,7 @@ public class Item {
 	
 	/**
 	 * Creates an instance of <i>Item</i> with provided values.
+	 * 
 	 * @param id Item id
 	 * @param title Item title
 	 * @param author Item author
@@ -46,28 +47,64 @@ public class Item {
 		setType(type);
 	}
 	
+	/**
+	 * @param id
+	 */
 	public void setId(String id) { this.id = new SimpleStringProperty(id); }
 	
+	/**
+	 * @return id
+	 */
 	public String getId() { return id.get(); }
 	
+	/**
+	 * @param title
+	 */
 	public void setTitle(String title) { this.title = new SimpleStringProperty(title); }
 
+	/**
+	 * @return title
+	 */
 	public String getTitle() { return title.get(); }
 
+	/**
+	 * @param author
+	 */
 	public void setAuthor(String author) { this.author = new SimpleStringProperty(author); }
 
+	/**
+	 * @return author
+	 */
 	public String getAuthor() { return author.get(); }
 	
+	/**
+	 * @param category
+	 */
 	public void setCategory(String category) { this.category = new SimpleStringProperty(category); }
-
+	
+	/**
+	 * @return category
+	 */
 	public String getCategory() { return category.get(); }
 	
+	/** 
+	 * @param status
+	 */
 	public void setStatus(String status) { this.status = new SimpleStringProperty(status); }
 
+	/**
+	 * @return status
+	 */
 	public String getStatus() { return status.get(); }
 	
+	/**
+	 * @param type
+	 */
 	public void setType(String type) { this.type = new SimpleStringProperty(type); }
 
+	/**
+	 * @return type
+	 */
 	public String getType() { return type.get(); }
 	
 	@Override

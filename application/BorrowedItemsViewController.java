@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 
 /**
  * This class is responsible for handling Borrowed Items View events.
+ * It is important to call <code>setStudentView()</code> method on this controller before using.
  * 
  * @author Nikita Mezhenskyi
  * @version 1.0.0, 2021-03-07
@@ -28,7 +29,7 @@ public class BorrowedItemsViewController {
 	public BorrowedItemsViewController() { }
 	
 	/**
-	 * Sets the reference to the Student View Contoller.
+	 * Sets the reference to the parent tudent View Contoller.
 	 * 
 	 * @param studentView Reference to the Student View Controller
 	 */

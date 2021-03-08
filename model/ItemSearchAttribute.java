@@ -13,12 +13,13 @@ public enum ItemSearchAttribute {
 	AUTHOR("author");
 	
 	/**
-	 * String value of attribute name
+	 * Stores a string value of attribute name.
 	 */
 	private String attributeName;
 
 	/**
 	 * Sets values for <i>ItemSearchAttribute</i>.
+	 * 
 	 * @param attributeName String value of attribute name
 	 */
 	private ItemSearchAttribute(String attributeName) {
@@ -27,6 +28,7 @@ public enum ItemSearchAttribute {
 	
 	/**
 	 * Returns a string value of attribute name to be used in searching queries.
+	 * 
 	 * @return String value of attribute name
 	 */
 	public String getAttributeName() { return attributeName; }
