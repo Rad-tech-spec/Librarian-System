@@ -3,6 +3,9 @@ package assignment1package;
 import javafx.scene.control.Alert;
 import javafx.stage.Window;
 
+/**
+ * @author Alexander Samaniego
+ */
 public class Helper {
 
 	/**

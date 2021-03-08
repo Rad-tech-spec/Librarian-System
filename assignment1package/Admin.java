@@ -31,6 +31,9 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Window;
 
+/**
+ * @author Alexander Samaniego
+ */
 public class Admin {
 
 	/**

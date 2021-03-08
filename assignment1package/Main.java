@@ -5,6 +5,9 @@ import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+/**
+ * @author Alexander Samaniego
+ */
 public class Main extends Application {
 
 	public static void main(String[] args) {

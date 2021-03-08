@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * @author Alexander Samaniego
+ */
 public class Database {
 	private static String jdbcURL = "jdbc:postgresql://ziggy.db.elephantsql.com:5432/efcagywl";
 	private static String username = "efcagywl";

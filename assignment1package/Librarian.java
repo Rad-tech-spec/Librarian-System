@@ -1,5 +1,8 @@
 package assignment1package;
 
+/**
+ * @author Alexander Samaniego
+ */
 public class Librarian {
 	private int id;
 	private String firstname;
