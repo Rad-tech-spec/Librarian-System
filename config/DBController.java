@@ -89,7 +89,7 @@ public class DBController {
 	
 	/**
 	 * Searches for items in the database by specified attribute name and its value.
-	 * Return a list with <i>Items</i> found.
+	 * Returns a list with <i>Items</i> found.
 	 * 
 	 * If the specified attribute name is ID, searches for the exact value,
 	 * otherwise performs case insensitive search for records that contain the search value. 
@@ -170,6 +170,7 @@ public class DBController {
 	
 	/**
 	 * Generates a report file based on the <i>Items</i> list passed.
+	 * 
 	 * @param items List with <i>Items</i>
 	 * @param fileName String representing a file used to generate a report
 	 */
@@ -212,7 +213,7 @@ public class DBController {
 	public String requestItem(Item item, Student student) {
 		String requestNum = null;
 		
-		String sql = "";
+		//String sql = "";
 		
 		return requestNum;
 	}
