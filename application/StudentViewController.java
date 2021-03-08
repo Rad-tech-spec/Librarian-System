@@ -8,6 +8,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.fxml.FXML;
@@ -52,25 +53,14 @@ public class StudentViewController {
 	private TableColumn<Item, String> itemType;
 	
 	private Stage auxiliaryStage = null;
-	
+	private Scene currentScene = null;
 	private ObservableList<Item> itemList = FXCollections.observableArrayList();
-	
 	private DBController db = new DBController();
 	
 	/**
 	 * Creates an instance of StudentView class.
 	 */
 	public StudentViewController() { }
-	
-	/**
-	 * Returns Student View fxml layout.
-	 * @return Parent containing fxml layout
-	 * @throws IOException
-	 */
-	public Parent getStudentView() throws IOException {
-		Parent root = FXMLLoader.load(getClass().getResource("fxmlViews/StudentView.fxml"));
-		return root;
-	}
 	
 	/**
 	 * Handles search <i>Item</i> event. Displays <i>Items</i> from the database based on search parameters.
@@ -117,6 +107,29 @@ public class StudentViewController {
 	public void handleClear(ActionEvent event) {
 		clearTable();
 		searchField.setText("");
+	}
+	
+	/**
+	 * Handles Log In button click event.
+	 * Switches the scene to the Log In View.
+	 * 
+	 * @param event
+	 */
+	public void handleLogIn(ActionEvent event) {
+		GridPane login = Login.loginMenu();
+		
+		if (currentScene != null) {
+			// Switch the scene to the Log In View
+			currentScene.setRoot(login);
+			// Get the underlying stage and change its title
+			((Stage) currentScene.getWindow()).setTitle("Library Management System");
+			//((Stage) currentScene.getWindow()).setWidth(600);
+			//((Stage) currentScene.getWindow()).setHeight(600);
+		}
+	}
+	
+	public void setCurrentScene(Scene currentScene) {
+		this.currentScene = currentScene;
 	}
 	
 	/**

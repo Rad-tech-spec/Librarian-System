@@ -20,7 +20,7 @@
                <font>
                   <Font size="14.0" />
                </font></TextField>
-            <ComboBox fx:id="parameterSelector" layoutX="15.0" layoutY="78.0" prefHeight="25.0" prefWidth="197.0" promptText="Select parameter">
+            <ComboBox fx:id="parameterSelector" layoutX="15.0" layoutY="78.0" prefHeight="25.0" prefWidth="198.0" promptText="Select parameter">
             	<items>
             		<FXCollections fx:factory="observableArrayList">
             			<String fx:value="by Title" />
@@ -48,6 +48,11 @@
                </font>
             </Label>
             <Button layoutX="15.0" layoutY="220.0" mnemonicParsing="false" onAction="#handleClear" prefHeight="25.0" prefWidth="198.0" text="Clear">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button layoutX="14.0" layoutY="676.0" mnemonicParsing="false" onAction="#handleLogIn" prefHeight="30.0" prefWidth="100.0" text="Log In">
                <font>
                   <Font size="14.0" />
                </font>
