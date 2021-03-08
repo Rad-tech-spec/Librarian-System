@@ -25,7 +25,6 @@ import model.ItemSearchAttribute;
  * @version 2.3.0, 2021-03-07
  */
 public class DBController {
-	
 	private String jdbcURL = "jdbc:postgresql://ziggy.db.elephantsql.com:5432/efcagywl";
 	private String username = "efcagywl";
 	private String password = "PMMtt1RExmvYJXt37yaT0qxi5XQI5fci";
@@ -189,6 +188,10 @@ public class DBController {
 		catch (IOException ex) { System.err.print("Error occurred while generating a report."); }
 	}
 	
+	/**
+	 * 
+	 * @param item
+	 */
 	public void requestItem(Item item) {
 		
 	}
