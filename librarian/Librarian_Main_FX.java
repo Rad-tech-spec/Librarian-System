@@ -1,4 +1,5 @@
 package librarian;
+import application.Login;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -124,6 +125,21 @@ public class Librarian_Main_FX{
 		Button Logout = new Button("Logout");
 		Logout.setMaxWidth(70);
 		Logout.setMaxHeight(40);
+		
+		Logout.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				try {
+					Logout.getScene().setRoot(Login.loginMenu());
+				} catch (Exception e) {
+				
+					e.printStackTrace();
+				}
+				
+			}
+			
+		});
 		
 		
 		// Adds all methods to the VBox as a children.

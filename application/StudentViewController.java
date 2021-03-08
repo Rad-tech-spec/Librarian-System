@@ -8,7 +8,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.fxml.FXML;
@@ -116,15 +115,11 @@ public class StudentViewController {
 	 * @param event
 	 */
 	public void handleLogIn(ActionEvent event) {
-		GridPane login = Login.loginMenu();
-		
 		if (currentScene != null) {
 			// Switch the scene to the Log In View
-			currentScene.setRoot(login);
+			currentScene.setRoot(Login.loginMenu());
 			// Get the underlying stage and change its title
 			((Stage) currentScene.getWindow()).setTitle("Library Management System");
-			//((Stage) currentScene.getWindow()).setWidth(600);
-			//((Stage) currentScene.getWindow()).setHeight(600);
 		}
 	}
 	

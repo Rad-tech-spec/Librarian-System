@@ -20,6 +20,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import librarian.Librarian_Main_FX;
 
 /**
  * @author Alexander Samaniego
@@ -119,9 +120,10 @@ public class Login {
 					ResultSet resultSet = preparedStatement.executeQuery();
 
 					if (resultSet.next()) {
-						// btn.getScene().setRoot(Admin.adminMenu());
-						Helper.showAlert(Alert.AlertType.INFORMATION, grid.getScene().getWindow(), "Login Successful!",
-								"Login was successful.");
+						try { btn.getScene().setRoot(Librarian_Main_FX.LibrarianMenu()); }
+						catch(Exception ex) { ex.printStackTrace(); }
+						//Helper.showAlert(Alert.AlertType.INFORMATION, grid.getScene().getWindow(), "Login Successful!",
+								//"Login was successful.");
 					} else {
 						Helper.showAlert(Alert.AlertType.ERROR, grid.getScene().getWindow(), "Login Error!",
 								"No Librarian account exists with this ID or password");
