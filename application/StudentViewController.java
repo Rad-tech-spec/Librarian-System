@@ -129,7 +129,7 @@ public class StudentViewController {
 			Parent root = loader.load();
 			BorrowedItemsViewController viewCtrl = loader.getController();
 			
-			// Pass a reference to the BorrowedItemsView
+			// Pass a reference to the BorrowedItemsViewController
 			viewCtrl.setStudentView(this);
 			
 			auxiliaryStage = new Stage();
@@ -138,9 +138,7 @@ public class StudentViewController {
 			auxiliaryStage.setScene(new Scene(root));
 			auxiliaryStage.show();
 		}
-		catch (Exception ex) {
-			ex.printStackTrace();
-		}
+		catch (IOException ex) { ex.printStackTrace(); }
 	}
 	
 	/**
@@ -150,9 +148,26 @@ public class StudentViewController {
 	public void handleRequestItem(ActionEvent event) {
 		Item selectedItem = dataTable.getSelectionModel().getSelectedItem();
 		if (selectedItem != null) {
-			db.requestItem(selectedItem);
-			feedback.setTextFill(Color.web("#006400"));
-			feedback.setText("Item #" + selectedItem.getId() + " has been requested");
+			try {
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("RequestItemView.fxml"));
+				Parent root = loader.load();
+				RequestItemViewController viewCtrl = loader.getController();
+				
+				// Pass selected item and feeback label to the RequestItemViewController
+				viewCtrl.setStudentView(this);
+				viewCtrl.setRequestData(selectedItem, feedback);
+				
+				auxiliaryStage = new Stage();
+				auxiliaryStage.setResizable(false);
+				auxiliaryStage.setTitle("Request an Item");
+				auxiliaryStage.setScene(new Scene(root));
+				auxiliaryStage.show();
+			}
+			catch (IOException ex) { ex.printStackTrace(); }
+		}
+		else {
+			feedback.setTextFill(Color.web("#FF0000"));
+			feedback.setText("Cannot make a request: item is not selected");
 		}
 	}
 	
@@ -188,7 +203,7 @@ public class StudentViewController {
 	 * @param studentId
 	 */
 	public void displayBorrowedItems(String studentId) {
-		auxiliaryStage.close();
+		closeAuxiliaryStage();
 		displayItems(db.getBorrowedItems(studentId, true));
 		if (feedback.getText().contains("Found")) feedback.setText(feedback.getText() + ", report file generated");
 	}
@@ -199,5 +214,12 @@ public class StudentViewController {
 	private void clearTable() {
 		feedback.setText("");
 		dataTable.getItems().clear(); 
+	}
+	
+	/**
+	 * Closes auxiliary stage used by Student View Controller.
+	 */
+	public void closeAuxiliaryStage() {
+		if (auxiliaryStage != null) auxiliaryStage.close();
 	}
 }

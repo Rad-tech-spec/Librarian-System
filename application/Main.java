@@ -5,7 +5,6 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 
 public class Main extends Application {
-	
 	private static Stage currentStage;
 	
 	@Override
@@ -18,16 +17,14 @@ public class Main extends Application {
 			currentStage.setTitle("Library Application | Student View");
 			currentStage.setScene(scene);
 			currentStage.show();
-		} catch(Exception e) {
-			e.printStackTrace();
 		}
+		catch(Exception e) { e.printStackTrace(); }
 	}
 	
 	/**
 	 * Entry point of the program.
+	 * 
 	 * @param args
 	 */
-	public static void main(String[] args) {
-		launch(args);
-	}
+	public static void main(String[] args) { launch(args); }
 }

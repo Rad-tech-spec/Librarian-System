@@ -28,8 +28,18 @@ public class BorrowedItemsViewController {
 	public BorrowedItemsViewController() { }
 	
 	/**
+	 * Sets the reference to the Student View Contoller.
+	 * 
+	 * @param studentView Reference to the Student View Controller
+	 */
+	public void setStudentView(StudentViewController studentViewController) {
+		this.studentViewController = studentViewController;
+	}
+	
+	/**
 	 * Handles confirm button click.
 	 * Sends student id back to the Student View Controller to display borrowed <i>Items</i>.
+	 * 
 	 * @param event
 	 */
 	public void handleConfirmStudentId(ActionEvent event) {
@@ -39,13 +49,5 @@ public class BorrowedItemsViewController {
 		else {
 			feedback.setTextFill(Color.web("#FF0000"));
 		}
-	}
-	
-	/**
-	 * Sets the reference to the Student View Contoller.
-	 * @param studentView Reference to the Student View Controller
-	 */
-	public void setStudentView(StudentViewController studentViewController) {
-		this.studentViewController = studentViewController;
-	}
+	}	
 }

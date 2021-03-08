@@ -16,6 +16,7 @@ import java.util.List;
 
 import model.Item;
 import model.ItemSearchAttribute;
+import model.Student;
 
 /**
  * Custom database controller.
@@ -48,6 +49,7 @@ public class DBController {
 	
 	/**
 	 * Connects to the database.
+	 * 
 	 * @return Operation success or failure (true / false)
 	 */
 	private boolean connect() {
@@ -60,6 +62,7 @@ public class DBController {
 	
 	/**
 	 * Closes the connection with the database.
+	 * 
 	 * @return Operation success or failure (true / false)
 	 */
 	private boolean disconnect() {
@@ -84,6 +87,7 @@ public class DBController {
 	/**
 	 * Searches for items in the database by specified attribute name and its value.
 	 * Return a list with <i>Items</i> found.
+	 * 
 	 * @param attributeName Constant of ItemSearchAttribute enum type
 	 * @param itemTitle String with item title
 	 * @return Item list
@@ -189,10 +193,13 @@ public class DBController {
 	}
 	
 	/**
+	 * Creates a request ticket for the selected <i>Item</i>.
+	 * Returns request number.
 	 * 
-	 * @param item
+	 * @param item <i>Item</i> to be requested
+	 * @return Request number
 	 */
-	public void requestItem(Item item) {
-		
+	public String requestItem(Item item, Student student) {
+		return "1987";
 	}
 }
