@@ -68,7 +68,7 @@ public class StudentViewController {
 	 * @throws IOException
 	 */
 	public Parent getStudentView() throws IOException {
-		Parent root = FXMLLoader.load(getClass().getResource("StudentView.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("fxmlViews/StudentView.fxml"));
 		return root;
 	}
 	
@@ -125,7 +125,7 @@ public class StudentViewController {
 	 */
 	public void viewBorrowedBtnClick(ActionEvent event) {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("BorrowedItemsView.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("fxmlViews/BorrowedItemsView.fxml"));
 			Parent root = loader.load();
 			BorrowedItemsViewController viewCtrl = loader.getController();
 			
@@ -149,7 +149,7 @@ public class StudentViewController {
 		Item selectedItem = dataTable.getSelectionModel().getSelectedItem();
 		if (selectedItem != null) {
 			try {
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("RequestItemView.fxml"));
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("fxmlViews/RequestItemView.fxml"));
 				Parent root = loader.load();
 				RequestItemViewController viewCtrl = loader.getController();
 				

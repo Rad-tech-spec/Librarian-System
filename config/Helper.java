@@ -1,4 +1,4 @@
-package assignment1package;
+package config;
 
 import javafx.scene.control.Alert;
 import javafx.stage.Window;

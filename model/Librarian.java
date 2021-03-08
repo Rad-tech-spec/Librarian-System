@@ -1,4 +1,4 @@
-package assignment1package;
+package model;
 
 /**
  * @author Alexander Samaniego

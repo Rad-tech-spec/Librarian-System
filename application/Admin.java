@@ -1,4 +1,4 @@
-package assignment1package;
+package application;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import config.Database;
+import config.Helper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,7 +31,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.stage.Window;
+import model.Librarian;
 
 /**
  * @author Alexander Samaniego

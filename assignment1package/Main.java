@@ -1,5 +1,6 @@
 package assignment1package;
 
+import application.Login;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
@@ -20,7 +21,7 @@ public class Main extends Application {
 		GridPane login = Login.loginMenu();
 
 		Scene scene = new Scene(login, 600, 600);
-		primaryStage.setTitle("Library Managment System");
+		primaryStage.setTitle("Library Management System");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}

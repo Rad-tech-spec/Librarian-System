@@ -12,10 +12,10 @@ public class Main extends Application {
 		try {
 			currentStage = primaryStage;
 			StudentViewController panel = new StudentViewController();
-			Scene scene = new Scene(panel.getStudentView(), 1080, 720);
+			Scene studentScene = new Scene(panel.getStudentView(), 1080, 720);
 			currentStage.setResizable(false);
 			currentStage.setTitle("Library Application | Student View");
-			currentStage.setScene(scene);
+			currentStage.setScene(studentScene);
 			currentStage.show();
 		}
 		catch(Exception e) { e.printStackTrace(); }
