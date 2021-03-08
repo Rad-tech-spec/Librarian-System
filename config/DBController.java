@@ -88,19 +88,23 @@ public class DBController {
 	 * Searches for items in the database by specified attribute name and its value.
 	 * Return a list with <i>Items</i> found.
 	 * 
+	 * If the specified attribute name is ID, searches for the exact value,
+	 * otherwise performs case insensitive search for records that contain the search value. 
+	 * 
 	 * @param attributeName Constant of ItemSearchAttribute enum type
-	 * @param itemTitle String with item title
+	 * @param searchValue String with the search value
 	 * @return Item list
 	 */
-	public List<Item> getItemsByAttribute(ItemSearchAttribute attributeName, String itemTitle) {
+	public List<Item> getItemsByAttribute(ItemSearchAttribute attributeName, String searchValue) {
 		List<Item> result = null;
 		
 		try {
 			connect();
 			statement = connection.createStatement();
 			String sql = (attributeName == ItemSearchAttribute.ID) ? 
-				("SELECT * FROM items WHERE " + attributeName.getAttributeName() + "=" + itemTitle + ";") :
-				("SELECT * FROM items WHERE " + attributeName.getAttributeName() + "='" + itemTitle + "';");
+				("SELECT * FROM items WHERE " + attributeName.getAttributeName() + "=" + searchValue + ";") :
+				// iLIKE is PostgreSQL operator for case insensitive search
+				("SELECT * FROM items WHERE " + attributeName.getAttributeName() + " iLIKE '%" + searchValue + "%';");  
 			resSet = statement.executeQuery(sql);
 			result = new ArrayList<Item>();
 			
