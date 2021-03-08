@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,13 +36,15 @@ public class DBController {
 	
 	/**
 	 * Creates an instace of DBController with the default connection string.
+	 * Creates a request_ticket table in the database, if it doesn't exist.
 	 */
-	public DBController() { }
+	public DBController() { createRequestTicketTable(); }
 	
 	/**
 	 * Creates an instance of DBController with the custom connection string.
 	 */
 	public DBController(String jdbcURL, String username, String password) {
+		this();
 		this.jdbcURL = jdbcURL;
 		this.username = username;
 		this.password = password;
@@ -93,7 +96,7 @@ public class DBController {
 	 * 
 	 * @param attributeName Constant of ItemSearchAttribute enum type
 	 * @param searchValue String with the search value
-	 * @return Item list
+	 * @return List of found <i>Items</i>
 	 */
 	public List<Item> getItemsByAttribute(ItemSearchAttribute attributeName, String searchValue) {
 		List<Item> result = null;
@@ -128,10 +131,11 @@ public class DBController {
 	}
 	
 	/**
+	 * Searches for borrowed items in the database for a particular student.
 	 * 
-	 * @param studentId
-	 * @param report
-	 * @return
+	 * @param studentId Student ID that was used to borrow <i>Items</i>
+	 * @param report If true, generates a report of borrowed <i>Items</i>
+	 * @return List of borrowed <i>Items</i>
 	 */
 	public List<Item> getBorrowedItems(String studentId, boolean report) {
 		List<Item> borrowedItems = null;
@@ -156,7 +160,7 @@ public class DBController {
 				borrowedItems.add(entry);
 			}
 			
-			if (report) generateReport(borrowedItems, "borrowed_items_" + studentId + ".txt");
+			if (report && borrowedItems.size() > 0) generateReport(borrowedItems, "borrowed_items_" + studentId + ".txt");
 		}
 		catch (SQLException ex) { ex.printStackTrace(); }
 		finally { disconnect(); }
@@ -199,11 +203,50 @@ public class DBController {
 	/**
 	 * Creates a request ticket for the selected <i>Item</i>.
 	 * Returns request number.
+	 * Each request receives a date value in the database.
+	 * Based on this date a librarian decides who should receive an issue first (in case the item is unavailable at the time).
 	 * 
 	 * @param item <i>Item</i> to be requested
 	 * @return Request number
 	 */
 	public String requestItem(Item item, Student student) {
-		return "1987";
+		String requestNum = null;
+		
+		String sql = "";
+		
+		return requestNum;
+	}
+	
+	/**
+	 * Creates request_ticket table in the <i>Library</i> database, if it doesn't exist.
+	 */
+	private void createRequestTicketTable() {
+		try {
+			connect();
+			DatabaseMetaData dbm = connection.getMetaData();
+			
+			// Check if request_ticket table already exists
+			resSet = dbm.getTables(null, null, "request_ticket", null);
+			
+			if (!resSet.next()) {
+				statement = connection.createStatement();
+				String sql = "CREATE TABLE request_ticket\r\n"
+						+ "(\r\n"
+						+ " request_num serial constraint request_num_pk primary key,\r\n"
+						+ "	student_id int not null,\r\n"
+						+ "	student_name varchar not null,\r\n"
+						+ "	student_standing varchar not null,\r\n"
+						+ "	student_degree_level varchar not null,\r\n"
+						+ " request_date date default CURRENT_TIMESTAMP not null,\r\n"
+						+ "	item_id int\r\n"
+						+ "		constraint request_ticket_items_id_fk\r\n"
+						+ "			references items\r\n"
+						+ "				on update cascade on delete cascade\r\n"
+						+ ");";
+				statement.executeUpdate(sql);
+			}
+		}
+		catch (SQLException ex) { ex.printStackTrace(); }
+		finally { disconnect(); }
 	}
 }
