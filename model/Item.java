@@ -88,22 +88,22 @@ public class Item {
 	public String getCategory() { return category.get(); }
 	
 	/** 
-	 * @param status
+	 * @param status Item status (Available / Borrowed / On Hold)
 	 */
 	public void setStatus(String status) { this.status = new SimpleStringProperty(status); }
 
 	/**
-	 * @return status
+	 * @return Item status (Available / Borrowed / On Hold)
 	 */
 	public String getStatus() { return status.get(); }
 	
 	/**
-	 * @param type
+	 * @param type Type of the Item (Book / Movie / Audio Book / Magazine)
 	 */
 	public void setType(String type) { this.type = new SimpleStringProperty(type); }
 
 	/**
-	 * @return type
+	 * @return Type of the Item (Book / Movie / Audio Book / Magazine)
 	 */
 	public String getType() { return type.get(); }
 	

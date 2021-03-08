@@ -10,7 +10,7 @@ public class Student {
 	private String studentId = "";
 	private String studentName = "";
 	private String studentPhone = "";
-	private boolean currentStudent = true;
+	private String academicStanding = "";
 	private String degreeLevel = "";
 	
 	/**
@@ -27,11 +27,11 @@ public class Student {
 	 * @param currentStudent Student's academic standing (current student or alumni)
 	 * @param degreeLevel Student's academic level (undergrad or grad)
 	 */
-	public Student(String studentId, String studentName, String studentPhone, boolean currentStudent, String degreeLevel) {
+	public Student(String studentId, String studentName, String studentPhone, String academicStanding, String degreeLevel) {
 		setStudentId(studentId);
 		setStudentName(studentName);
 		setStudentPhone(studentPhone);
-		setCurrentStudent(currentStudent);
+		setAcademicStanding(academicStanding);
 		setDegreeLevel(degreeLevel);
 	}
 	
@@ -66,26 +66,22 @@ public class Student {
 	public String getStudentPhone() { return studentPhone; }
 
 	/**
-	 * If student's academic standing is Current Student, pass true, otherwise pass false.
-	 * 
-	 * @param currentStudent Student's academic standing (current student or alumni)
+	 * @param academicStanding Student's academic standing (Current Student or Alumni)
 	 */
-	public void setCurrentStudent(boolean currentStudent) { this.currentStudent = currentStudent; }
+	public void setAcademicStanding(String academicStanding) { this.academicStanding = academicStanding; }
 
 	/**
-	 * If student's academic standing is Current Student, returns true, otherwise returns false.
-	 * 
-	 * @return Student's academic standing (current student or alumni)
+	 * @return Student's academic standing (Current Student or Alumni)
 	 */
-	public boolean isCurrentStudent() { return currentStudent; }
+	public String getAcademicStanding() { return academicStanding; }
 
 	/**
-	 * @param degreeLevel Student's academic level (undergrad or grad)
+	 * @param degreeLevel Student's degree level (undergrad or grad)
 	 */
 	public void setDegreeLevel(String degreeLevel) { this.degreeLevel = degreeLevel; }
 
 	/**
-	 * @return Student's academic level (undergrad or grad)
+	 * @return Student's degree level (undergrad or grad)
 	 */
 	public String getDegreeLevel() { return degreeLevel; }
 }

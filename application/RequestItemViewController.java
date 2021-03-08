@@ -1,5 +1,7 @@
 package application;
 
+import java.util.regex.Pattern;
+
 import config.DBController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -79,9 +81,15 @@ public class RequestItemViewController {
 		String studentStanding = standingSelection.getSelectionModel().getSelectedItem();
 		String degreeLevel = degreeLevelSelection.getSelectionModel().getSelectedItem();
 		 
+		// Input validation:
 		if (studentIdField.getText().isBlank()) {
 			feedback.setTextFill(Color.web("#FF0000"));
 			feedback.setText("Please enter your Student ID");
+			valid = false;
+		}
+		else if (!Pattern.matches("^[0-9]{1,}$", studentIdField.getText())) {
+			feedback.setTextFill(Color.web("#FF0000"));
+			feedback.setText("Student ID should contain only digits");
 			valid = false;
 		}
 		else if (studentNameField.getText().isBlank()) {
@@ -112,7 +120,7 @@ public class RequestItemViewController {
 			student.setStudentId(studentIdField.getText());
 			student.setStudentName(studentNameField.getText());
 			student.setStudentPhone(studentPhoneField.getText());
-			student.setCurrentStudent(studentStanding.equals("Current Student")); // Current Student = true, Alumni = false
+			student.setAcademicStanding(studentStanding);
 			student.setDegreeLevel(degreeLevel);
 			
 			if (requestedItem != null && parentFeedback != null && studentViewController != null) {

@@ -204,8 +204,11 @@ public class DBController {
 	/**
 	 * Creates a request ticket for the selected <i>Item</i>.
 	 * Returns request number.
+	 * 
 	 * Each request receives a date value in the database.
-	 * Based on this date a librarian decides who should receive an issue first (in case the item is unavailable at the time).
+	 * A librarian should use this date as indicator on who receives an issue first in case the same <i>Item</i> is requested
+	 * (or the  requested <i>Item</i> is unavailable at the time).
+	 * Before issuing an item, a librarian would call the student to notify that the item is ready for pick up.
 	 * 
 	 * @param item <i>Item</i> to be requested
 	 * @return Request number
@@ -213,7 +216,31 @@ public class DBController {
 	public String requestItem(Item item, Student student) {
 		String requestNum = null;
 		
-		//String sql = "";
+		try {
+			connect();
+			statement = connection.createStatement();
+			
+			String sql = "INSERT INTO request_ticket (student_id, student_name, student_phone, student_standing, student_degree_level, item_id)\r\n"
+					+ " VALUES (" + student.getStudentId() + ", '"
+					+ student.getStudentName() + "', '"
+					+ student.getStudentPhone() + "', '"
+					+ student.getAcademicStanding() + "', '"
+					+ student.getDegreeLevel() + "', "
+					+ item.getId()
+					+ ");";
+			
+			statement.executeUpdate(sql);
+			
+			// Get the request number for the return statement
+			sql = "SELECT request_num FROM request_ticket\r\n"
+					+ " WHERE student_id = " + student.getStudentId()
+					+ " AND item_id = " + item.getId();
+			resSet = statement.executeQuery(sql);
+			resSet.next();
+			requestNum = resSet.getString("request_num");
+		}
+		catch (SQLException ex) { ex.printStackTrace(); }
+		finally { disconnect(); }
 		
 		return requestNum;
 	}
@@ -236,9 +263,10 @@ public class DBController {
 						+ " request_num serial constraint request_num_pk primary key,\r\n"
 						+ "	student_id int not null,\r\n"
 						+ "	student_name varchar not null,\r\n"
+						+ " student_phone varchar not null,\r\n"
 						+ "	student_standing varchar not null,\r\n"
 						+ "	student_degree_level varchar not null,\r\n"
-						+ " request_date date default CURRENT_TIMESTAMP not null,\r\n"
+						+ " request_date timestamp default CURRENT_TIMESTAMP not null,\r\n"
 						+ "	item_id int\r\n"
 						+ "		constraint request_ticket_items_id_fk\r\n"
 						+ "			references items\r\n"
