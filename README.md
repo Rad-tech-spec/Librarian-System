@@ -7,6 +7,7 @@
   * __application.student__ package contains logic associated with the Student user role
 * __dao__ package represents a Data Access Object and contains logic for database manipulation
 * __model__ package contains entity representations
+* __test__ package contains JUnit 5 tests
 * __utilities__ package contains general helper logic
 
 ## Build details:
