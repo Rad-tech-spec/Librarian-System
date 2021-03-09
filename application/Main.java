@@ -7,6 +7,14 @@ import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
+/**
+ * <h2>Main - Primary Stage Control class</h2>
+ * 
+ * @author Nikita Mezhenskyi
+ * @author Rad Eshghi
+ * @author Alexander Samaniego
+ * @version 2.0.0, 2021-03-09
+ */
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {

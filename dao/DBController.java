@@ -204,8 +204,8 @@ public class DBController implements Data_Connection {
 	 * Creates a request ticket for the selected <i>Item</i>.
 	 * Returns request number.
 	 * 
-	 * Each request receives a date value in the database.
-	 * A librarian should use this date as indicator on who receives an issue first in case the same <i>Item</i> is requested
+	 * Each request receives a timestamp in the database.
+	 * A librarian should use this timestamp value as indicator on who receives an issue first in case the same <i>Item</i> is requested
 	 * (or the  requested <i>Item</i> is unavailable at the time).
 	 * Before issuing an item, a librarian would call the student to notify that the item is ready for pick up.
 	 * 
