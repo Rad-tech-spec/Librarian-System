@@ -53,16 +53,22 @@ public class StudentViewController {
 	
 	private Stage auxiliaryStage = null;
 	private Scene currentScene = null;
+	/**
+	 * This list is used to display items in the dataTable.
+	 */
 	private ObservableList<Item> itemList = FXCollections.observableArrayList();
+	/**
+	 * DBController instance used to communicate with the <i>Library</i> database.
+	 */
 	private DBController db = new DBController();
 	
 	/**
-	 * Creates an instance of StudentView class.
+	 * Creates an instance of StudentViewController class.
 	 */
 	public StudentViewController() { }
 	
 	/**
-	 * Handles search <i>Item</i> event. Displays <i>Items</i> from the database based on search parameters.
+	 * Handles searching of the <i>Item</i> event. Displays <i>Items</i> from the database based on search parameters.
 	 * @param event
 	 */
 	public void handleSearch(ActionEvent event) {
@@ -94,13 +100,14 @@ public class StudentViewController {
 	}
 	
 	/**
-	 * Handles enter key press while focusing on the text field.
-	 * Calls handleSearch event.
+	 * Handles enter key press while focusing on the <i>searchField</i>.
+	 * Calls handleSearch event handler.
 	 */
 	public void handleEnterPress(ActionEvent event) { handleSearch(event); }
 	
 	/**
-	 * Clears the input field and removes all <i>Items</i> from the table.
+	 * Handles <i>Clear</i> button click.
+	 * Clears the search field and removes all <i>Items</i> from the table.
 	 * @param event
 	 */
 	public void handleClear(ActionEvent event) {
@@ -109,7 +116,7 @@ public class StudentViewController {
 	}
 	
 	/**
-	 * Handles Log In button click event.
+	 * Handles <i>Log In</i> button click event.
 	 * Switches the scene to the Log In View.
 	 * 
 	 * @param event
@@ -123,6 +130,11 @@ public class StudentViewController {
 		}
 	}
 	
+	/**
+	 * Sets the currentScene value.
+	 * 
+	 * @param currentScene
+	 */
 	public void setCurrentScene(Scene currentScene) {
 		this.currentScene = currentScene;
 	}
@@ -151,6 +163,8 @@ public class StudentViewController {
 	
 	/**
 	 * Handles request an <i>Item</i> event.
+	 * Creates an auxiliary stage to receive the data needed to process the request.
+	 * 
 	 * @param event
 	 */
 	public void handleRequestItem(ActionEvent event) {
@@ -180,8 +194,9 @@ public class StudentViewController {
 	}
 	
 	/**
-	 * Displays <i>Items</i> from the database in the table.
-	 * @param value
+	 * Displays <i>Items</i> from the list in the table.
+	 * 
+	 * @param items List with <i>Items</i> to be displayed
 	 */
 	private void displayItems(List<Item> items) {
 		clearTable();
@@ -207,12 +222,13 @@ public class StudentViewController {
 	}
 	
 	/**
+	 * Displays borrowed <i>Items</i> from the database for a particular student.
 	 * 
-	 * @param studentId
+	 * @param studentId Student ID used to search for borrowed <i>Items</i>
 	 */
 	public void displayBorrowedItems(String studentId) {
 		closeAuxiliaryStage();
-		displayItems(db.getBorrowedItems(studentId, true));
+		displayItems(db.getBorrowedItems(studentId, true)); // Pass true to getBorrowedItems() to generate a report
 		if (feedback.getText().contains("Found")) feedback.setText(feedback.getText() + ", report file generated");
 	}
 	
@@ -225,7 +241,7 @@ public class StudentViewController {
 	}
 	
 	/**
-	 * Closes auxiliary stage used by Student View Controller.
+	 * Closes an auxiliary stage used by Student View Controller.
 	 */
 	public void closeAuxiliaryStage() {
 		if (auxiliaryStage != null) auxiliaryStage.close();
