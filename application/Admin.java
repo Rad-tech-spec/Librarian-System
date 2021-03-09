@@ -57,6 +57,7 @@ public class Admin {
 		Button registerLibrarian = new Button("Register Librarian");
 		Button viewLibrarian = new Button("View Librarian");
 		Button deleteLibrarian = new Button("Delete Librarian");
+		Button logout = new Button("Logout");
 
 		HBox registerBtn = new HBox();
 		registerBtn.setAlignment(Pos.CENTER);
@@ -90,7 +91,19 @@ public class Admin {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				viewLibrarian.getScene().setRoot(deleteLibrarian());
+				deleteLibrarian.getScene().setRoot(deleteLibrarian());
+			}
+		});
+
+		HBox logoutBtn = new HBox();
+		logoutBtn.setAlignment(Pos.CENTER);
+		logoutBtn.getChildren().add(logout);
+		grid.add(logoutBtn, 0, 4);
+		logout.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				logout.getScene().setRoot(Login.loginMenu());
 			}
 		});
 
