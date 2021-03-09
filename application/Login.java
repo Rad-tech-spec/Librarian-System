@@ -1,5 +1,6 @@
 package application;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,8 +8,13 @@ import java.sql.SQLException;
 
 import config.Database;
 import config.Helper;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -20,6 +26,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import librarian.Librarian_Main_FX;
 
 /**
@@ -63,7 +70,6 @@ public class Login {
 
 		PasswordField pwBox = new PasswordField();
 		grid.add(pwBox, 1, 3);
-		// grid.setGridLinesVisible(true);
 
 		Button loginBtn = new Button("Login");
 		HBox hbBtn = new HBox();
@@ -73,6 +79,39 @@ public class Login {
 
 		loginBtn.setOnAction(
 				e -> loginButton(idTextField.getText(), pwBox.getText(), userComboBox.getValue(), grid, loginBtn));
+
+		Button backButton = new Button("Back to Search Menu");
+		HBox backBtn = new HBox();
+		backBtn.setAlignment(Pos.BOTTOM_RIGHT);
+		backBtn.getChildren().add(backButton);
+		grid.add(backBtn, 1, 6);
+
+		backButton.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				Stage primaryStage = (Stage) backButton.getScene().getWindow();
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("fxmlViews/StudentView.fxml"));
+				Parent root;
+				try {
+					root = loader.load();
+
+					StudentViewController viewCtrl = loader.getController();
+					Scene studentScene = new Scene(root, 1080, 720);
+
+					// Pass a reference to the created student scene to the Student View Controller
+					viewCtrl.setCurrentScene(studentScene);
+
+					primaryStage.setResizable(false);
+					primaryStage.setTitle("Library Application | Student View");
+					primaryStage.setScene(studentScene);
+					primaryStage.show();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 
 		return grid;
 	}
@@ -120,10 +159,11 @@ public class Login {
 					ResultSet resultSet = preparedStatement.executeQuery();
 
 					if (resultSet.next()) {
-						try { btn.getScene().setRoot(Librarian_Main_FX.LibrarianMenu()); }
-						catch(Exception ex) { ex.printStackTrace(); }
-						//Helper.showAlert(Alert.AlertType.INFORMATION, grid.getScene().getWindow(), "Login Successful!",
-								//"Login was successful.");
+						try {
+							btn.getScene().setRoot(Librarian_Main_FX.LibrarianMenu());
+						} catch (Exception ex) {
+							ex.printStackTrace();
+						}
 					} else {
 						Helper.showAlert(Alert.AlertType.ERROR, grid.getScene().getWindow(), "Login Error!",
 								"No Librarian account exists with this ID or password");
@@ -138,6 +178,5 @@ public class Login {
 			Helper.showAlert(Alert.AlertType.ERROR, grid.getScene().getWindow(), "Login Error!",
 					"Please enter a Number for ID.");
 		}
-
 	}
 }
