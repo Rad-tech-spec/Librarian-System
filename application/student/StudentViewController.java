@@ -61,7 +61,7 @@ public class StudentViewController {
 	/**
 	 * DBController instance used to communicate with the <i>Library</i> database.
 	 */
-	private DBController db = new DBController();
+	private final DBController db = new DBController();
 	
 	/**
 	 * Creates an instance of StudentViewController class.

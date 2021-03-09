@@ -43,7 +43,7 @@ public class RequestItemViewController {
 	/**
 	 * DBController instance is used for requesting an <i>Item</i>.
 	 */
-	private DBController db = new DBController();
+	private final DBController db = new DBController();
 	
 	/**
 	 * Creates an instance of RequestItemViewController class.
