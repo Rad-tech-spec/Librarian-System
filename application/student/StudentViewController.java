@@ -1,4 +1,4 @@
-package application;
+package application.student;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,7 +19,8 @@ import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.util.List;
 
-import config.DBController;
+import application.Login;
+import dao.DBController;
 import model.Item;
 import model.ItemSearchAttribute;
 

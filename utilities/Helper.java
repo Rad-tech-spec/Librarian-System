@@ -1,4 +1,4 @@
-package config;
+package utilities;
 
 import javafx.scene.control.Alert;
 import javafx.stage.Window;

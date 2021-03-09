@@ -1,4 +1,4 @@
-package config;
+package dao;
 
 import java.io.BufferedWriter;
 import java.io.File;

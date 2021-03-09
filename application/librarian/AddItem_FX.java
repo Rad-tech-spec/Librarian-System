@@ -1,6 +1,7 @@
-package librarian;
+package application.librarian;
 
 
+import dao.Data;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import model.Info;
 
 /**
  * <h2>Add Item - JavaFX And Control</h2>

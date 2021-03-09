@@ -1,8 +1,8 @@
-package application;
+package application.student;
 
 import java.util.regex.Pattern;
 
-import config.DBController;
+import dao.DBController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;

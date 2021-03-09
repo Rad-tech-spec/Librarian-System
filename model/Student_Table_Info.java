@@ -1,4 +1,4 @@
-package librarian;
+package model;
 /**
  * <h2>Student Info Interface</h2>
  * @author Rad Eshghi

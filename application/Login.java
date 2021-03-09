@@ -6,8 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import config.Database;
-import config.Helper;
+import application.admin.Admin;
+import application.librarian.Librarian_Main_FX;
+import application.student.StudentViewController;
+import dao.Database;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -27,7 +29,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import librarian.Librarian_Main_FX;
+import utilities.Helper;
 
 /**
  * @author Alexander Samaniego

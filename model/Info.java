@@ -1,4 +1,4 @@
-package librarian;
+package model;
 /**
  * <h2>Info Abstract - Stores Item information</h2>
  * @author Rad Eshghi

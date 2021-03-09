@@ -1,4 +1,4 @@
-package application;
+package application.admin;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -10,8 +10,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import config.Database;
-import config.Helper;
+import application.Login;
+import dao.Database;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -32,6 +32,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import model.Librarian;
+import utilities.Helper;
 
 /**
  * @author Alexander Samaniego

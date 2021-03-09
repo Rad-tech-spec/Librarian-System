@@ -1,4 +1,4 @@
-package config;
+package dao;
 /**
  * <h2>Data Base Info Interface</h2>
  * @author Rad Eshghi
