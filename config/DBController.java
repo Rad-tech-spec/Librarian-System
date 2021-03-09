@@ -22,32 +22,31 @@ import model.Student;
 /**
  * Custom database controller.
  * This class handles connection to and manipulation of the <i>Library</i> database.
+ * DBController receives the connection string to the <i>Library</i> database from the <code>Data_Connection</code> interface.
+ * 
+ * All DBController instances share the same connection string with the same username.
+ * The <i>Library</i> database supports only a single connection for each user.
+ * Therefore, DBController is not optimized for asynchronous usage.
  * 
  * @author Nikita Mezhenskyi
- * @version 2.3.0, 2021-03-07
+ * @version 2.4.0, 2021-03-09
  */
-public class DBController {
-	private String jdbcURL = "jdbc:postgresql://ziggy.db.elephantsql.com:5432/efcagywl";
-	private String username = "efcagywl";
-	private String password = "PMMtt1RExmvYJXt37yaT0qxi5XQI5fci";
+public class DBController implements Data_Connection {
 	private Connection connection = null;
 	private Statement statement = null;
 	private ResultSet resSet = null;
 	
 	/**
-	 * Creates an instace of DBController with the default connection string.
-	 * Creates a request_ticket table in the database, if it doesn't exist.
+	 * If false, the DBController will call the <code>createRequestTicketTable()</code> method upon instantiation.
 	 */
-	public DBController() { createRequestTicketTable(); }
+	private static boolean startUpProcedureComplete = false;
 	
 	/**
-	 * Creates an instance of DBController with the custom connection string.
+	 * Creates an instace of DBController.
+	 * Upon first instantiation creates a request_ticket table in the database, if it doesn't exist yet.
 	 */
-	public DBController(String jdbcURL, String username, String password) {
-		this();
-		this.jdbcURL = jdbcURL;
-		this.username = username;
-		this.password = password;
+	public DBController() {
+		if (!startUpProcedureComplete) createRequestTicketTable();
 	}
 	
 	/**
@@ -57,7 +56,7 @@ public class DBController {
 	 */
 	private boolean connect() {
 		try {
-			connection = DriverManager.getConnection(jdbcURL, username, password);
+			connection = DriverManager.getConnection(Data_Connection.jdbcURL, Data_Connection.username, Data_Connection.password);
 			return true;
 		}
 		catch (SQLException e) { return false; }
@@ -274,6 +273,9 @@ public class DBController {
 						+ ");";
 				statement.executeUpdate(sql);
 			}
+			
+			// If the previous code in the try block didn't throw an exception, the Start Up Procedure is complete
+			startUpProcedureComplete = true;
 		}
 		catch (SQLException ex) { ex.printStackTrace(); }
 		finally { disconnect(); }
