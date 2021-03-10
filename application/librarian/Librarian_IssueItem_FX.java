@@ -91,6 +91,8 @@ public class Librarian_IssueItem_FX extends Info{
 				setCOL_Name(textField.getText()); 
 				
 				Data.SearchQuantity(getCOL_Name());
+				
+				Avalibility.setText("Availability:    " + Avalibility_V);
 			}
 			catch(Exception exe)
 			{
