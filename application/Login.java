@@ -1,15 +1,13 @@
 package application;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import application.admin.Admin;
 import application.librarian.Librarian_Main_FX;
 import application.student.StudentViewController;
-import dao.Database;
+import dao.LoginAdminDBController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -130,8 +128,6 @@ public class Login {
 	 */
 	private static void loginButton(String id, String password, String userType, GridPane grid, Button btn) {
 
-		Connection conn = Database.connect();
-
 		try {
 			int idNum = Integer.parseInt(id);
 
@@ -140,9 +136,7 @@ public class Login {
 						"No user type selected.");
 			} else if (userType.equalsIgnoreCase("Admin")) {
 				try {
-					PreparedStatement preparedStatement = conn.prepareStatement(
-							"SELECT * FROM admin WHERE id=" + idNum + " AND password='" + password + "'");
-					ResultSet resultSet = preparedStatement.executeQuery();
+					ResultSet resultSet = LoginAdminDBController.adminLogin(idNum, password);
 
 					if (resultSet.next()) {
 						btn.getScene().setRoot(Admin.adminMenu());
@@ -156,9 +150,7 @@ public class Login {
 				}
 			} else if (userType.equalsIgnoreCase("Librarian")) {
 				try {
-					PreparedStatement preparedStatement = conn.prepareStatement(
-							"SELECT * FROM librarian WHERE id=" + idNum + " AND password='" + password + "'");
-					ResultSet resultSet = preparedStatement.executeQuery();
+					ResultSet resultSet = LoginAdminDBController.librarianLogin(idNum, password);
 
 					if (resultSet.next()) {
 						try {
