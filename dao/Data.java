@@ -3,6 +3,7 @@
  */
 package dao;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,13 +16,19 @@ import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+
 import application.librarian.Librarian_IssueItem_FX;
-import application.librarian.Librarian_ViewBook_FX;
+import application.librarian.Librarian_ViewItems_FX;
+import application.librarian.Librarian_WaitingList_FX;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import model.Info;
 import model.Student_Table_Info;
+import model.WaitngList_Table_Info;
+
 
 /**
  * <h2>Librarian - Data management</h2>
@@ -35,7 +42,9 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
 	static String queryItems = "SELECT * FROM Items";
 	static String queryIssue = "SELECT * FROM Issued";
 	static String queryReturn = "SELECT * FROM returned";
+	static String queryTicket = "SELECT * FROM request_ticket";
 	static int count = 0;
+	static int count2 = 0;
 
 	
 	/**
@@ -142,26 +151,44 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
 	 * This method is responsible for generating a output file of all the items that are in the items table in the data base<br>
 	 * it includes all the information about the items with the date of creation and quantity of the items of each category.<br>
 	 * Also try catch method has been used to handle and reduce exceptions.<br>
-	 * This method connects and disconnects once is out of scope from the data base same as output file.
+	 * This method connects and disconnects once is out of scope from the data base same as output file.<br>
+	 * User will be able to save the file in there computer in any path or any devise that they want.
 	 * @return
 	 */
 	//ViewBook_Class//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public static Parent GenerateFile() 
 	{
+		
+		
 		FileWriter outputStream = null;
-		String outFileStr = "LibraryItems.txt";
-	
-	
+		//String outFileStr = "LibraryItems.txt";
+		
+		
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setDialogTitle("Specify a file to save");  
+		JFrame parentFrame = new JFrame();
+		int userSelection = fileChooser.showSaveDialog(parentFrame);
+		
+		if(userSelection == JFileChooser.APPROVE_OPTION)
+		{
+			File fileToSave = fileChooser.getSelectedFile();
+		    System.out.println("Save as file: " + fileToSave.getAbsolutePath());
+			
+
         try
         {
             Connection connection = DriverManager.getConnection(Data_Connection.jdbcURL, Data_Connection.username, Data_Connection.password);
             System.out.println("Connected to PostgreSQL server.");
 
-            
-            
+
            try
            {
-        	   outputStream = new FileWriter(outFileStr, true);
+        	   
+        	   if(userSelection  == JFileChooser.APPROVE_OPTION)
+        	   {
+        		   
+        	   }
+        	   outputStream = new FileWriter(fileToSave.getPath(), true);
         	   
         	   Statement statement = connection.createStatement();
         	   ResultSet result = statement.executeQuery(queryItems);
@@ -190,8 +217,8 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
 	        	   
   	       	   
 	        	   outputStream.write("--------------------------------------------------END OF FILE--------------------------------------------------\n");
-	        	   outputStream.write("Generated in: " +  dtf.format(now) + "\t\t Books#: " + Librarian_ViewBook_FX.getNumOfBook() + "\t Magazine#: " + Librarian_ViewBook_FX.getNumOfMagazine() 
-	        	   	+ "\t Video#: " + Librarian_ViewBook_FX.getNumOfVideo());  
+	        	   outputStream.write("Generated in: " +  dtf.format(now) + "\t\t Books#: " + Librarian_ViewItems_FX.getNumOfBook() + "\t Magazine#: " + Librarian_ViewItems_FX.getNumOfMagazine() 
+	        	   	+ "\t Video#: " + Librarian_ViewItems_FX.getNumOfVideo());  
 	        	   outputStream.write("\n---------------------------------------------------------------------------------------------------------------\n\n\n");
 	        	   outputStream.close();
 	        	   statement.close();
@@ -222,7 +249,7 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
             System.out.println("Error. Couldn't connect to PostgreSQL server!");
             e.printStackTrace();
         }
-        
+	}
 		return null;
 	}
 
@@ -250,11 +277,11 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
         		   setCOL_Kind(result.getString("type"));
         		   
         		   if(getCOL_Kind().equals("Book"))
-        			   Librarian_ViewBook_FX.setNumOfBook(1);
+        			   Librarian_ViewItems_FX.setNumOfBook(1);
         		   else if (getCOL_Kind().equals("Magazines"))
-        			   Librarian_ViewBook_FX.setNumOfMagazine(1);
+        			   Librarian_ViewItems_FX.setNumOfMagazine(1);
         		   else
-        			   Librarian_ViewBook_FX.setNumOfVideo(1);
+        			   Librarian_ViewItems_FX.setNumOfVideo(1);
         	   }
 
         	   statement.close();
@@ -312,7 +339,7 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
             setTable_Name("Issued");
             setCOL_Name("Name");
             setCOL_ID_S("ID");
-             
+	             
             
              try
              {
@@ -345,6 +372,7 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
            	   }
             	 
 
+            	  System.out.println(avalibility);
             	 if(avalibility != 0 && flag == true)
             	 {
             		 String matchQuery = "UPDATE Items" + " SET status = 'Borrowed'" + " WHERE id = ?";
@@ -367,10 +395,28 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
                  	prestat2.setString(6, dtf.format(now));
                  	prestat2.execute();
                  	
+                 
+                 	// To remove from the request ticket.
+                 	try
+                 	{
+                 		String remove = "DELETE FROM request_ticket" + " WHERE student_id = ?";
+          	      	   PreparedStatement prestat3 = connection.prepareStatement(remove);
+          	      	   prestat3.setInt(1, StudentID);
+          	      	   prestat3.execute();
+          	      	   //count2 = 0;
+     	     	      	
+                 	}
+                 	catch(SQLException e)
+                 	{
+                 		e.printStackTrace();
+                 	}
+
+
+                 	
                  	System.out.println("Issuing Item Completed.");
                  	Alert alert = new Alert(AlertType.INFORMATION);
     				alert.setTitle("Success");
-    				alert.setContentText(name + " ID:" + id + " Item as been issued.");
+    				alert.setContentText(name + " ID:" + id + " Item has been issued.");
     				alert.setHeaderText(null);
     				alert.showAndWait();
             	 }
@@ -421,6 +467,7 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
         	   Statement statement = connection.createStatement();
         	   ResultSet result = statement.executeQuery(queryItems);
         	   
+        	   Librarian_IssueItem_FX.setAvalibility_V(0);
         	   while(result.next())
         	   {
         		  
@@ -432,7 +479,7 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
         			   setCOL_Status(result.getString("status"));
         			   
         			   if(getCOL_Status().equals("Available"))
-        				   Librarian_IssueItem_FX.setAvalibility_V(1);
+        				   Librarian_IssueItem_FX.setAvalibility_V_Increment(1);
         		   } 
         	   }
 
@@ -520,10 +567,12 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
 	          		   int St_ID = result.getInt("student_id");
 	          		   String COL_StudentPhone2 = result.getString("student_phone");
 	          		    
+	          		   System.out.println(Name + " " + St_Name + " " + St_ID + " " + COL_StudentPhone2);
+	          		   System.out.println(name + " " + StudentName + " " + StudentID + " " + StudentPhone);
 	          		    if(Name.equals(name) && St_Name.equals(StudentName) && St_ID == StudentID && COL_StudentPhone2.equals(StudentPhone))
 	          		    {
 	          		    	flag2 = true;
-	          		    } 		    
+	          		    } 	
 	          	   }
             	 
 	           	  	// To check if id exist
@@ -604,4 +653,70 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
         
 		return null;
 	}
+
+
+//WaitingList //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * This method is responsible to extract data from data base which shows the student ticket number and other<br>
+	 * information so that the librarian will be able to issue to who is next.
+	 */
+	public static void Get_Waitng_data()
+	{
+		
+		try
+		{
+			Connection connection = DriverManager.getConnection(Data_Connection.jdbcURL, Data_Connection.username, Data_Connection.password);
+            System.out.println("Connected to PostgreSQL server.");
+            Statement statement = connection.createStatement();
+     	    ResultSet result = statement.executeQuery(queryTicket);
+     	   
+     	   int requestNum;
+     	   int Stnum;
+     	   String StName;
+     	   String Stphone;
+     	   String Standing;
+     	   String Dgreelvl;
+     	   String Date;
+     	   int ItemId;
+     		  
+	        		
+     	  if(count2 == 0)
+     	  {
+	    	   while(result.next())
+	    	   {
+	    		   requestNum = result.getInt("request_num");
+	    		   Stnum = result.getInt("student_id"); 
+	    		   StName = result.getString("student_name");
+	    		   Stphone = result.getString("student_phone");
+	    		   Standing = result.getString("student_standing");
+	    		   Dgreelvl = result.getString("student_degree_level");
+	    		   Date = result.getString("request_date");
+	    		   ItemId = result.getInt("item_id");
+	    		   
+	    		   Librarian_WaitingList_FX.tableview.getItems().add(new WaitngList_Table_Info(requestNum,Stnum,StName,Stphone,Standing,Dgreelvl,Date,ItemId));
+	    		   System.out.print(requestNum  + " " +  Stnum+ " " + StName+ " " + Stphone+ " " + Standing+ " " + Dgreelvl+ " " + Date+ " " + ItemId);
+	    	   }
+	    	   
+	    	   count2++;
+     	  }    
+		}
+		catch(SQLException e)
+		{
+			System.out.println("Error. Couldn't connect to PostgreSQL server!");
+			e.printStackTrace();
+		}
+		
+	}
 }
+	
+
+
+
+
+
+
+
+
+
+

@@ -15,6 +15,9 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 //import javafx.stage.Stage;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import model.Info;
 
 /**
@@ -30,6 +33,7 @@ public class Librarian_IssueItem_FX extends Info{
 	private static String StudentName_V;
 	private static int StudentID_V; 
 	private static String StudentPhone_V;
+	
 	
 	/**
 	 * This is the default constructor that will set the variables into empty state.
@@ -62,7 +66,8 @@ public class Librarian_IssueItem_FX extends Info{
 	 */
 	public static Parent IssueItem() throws Exception {
 	
-	
+		Text scenetitle = new Text("Issuing Item's");
+		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		
 		HBox hbox = new HBox(10);
 		hbox.setAlignment(Pos.CENTER);
@@ -91,8 +96,8 @@ public class Librarian_IssueItem_FX extends Info{
 				setCOL_Name(textField.getText()); 
 				
 				Data.SearchQuantity(getCOL_Name());
-				
 				Avalibility.setText("Availability:    " + Avalibility_V);
+				
 			}
 			catch(Exception exe)
 			{
@@ -162,6 +167,7 @@ public class Librarian_IssueItem_FX extends Info{
 				StudentPhone_V = textField6.getText();
 				
 				Data.Issue(getCOL_Name(), getCOL_ID(), Avalibility_V,StudentName_V,StudentID_V,StudentPhone_V);
+				
 
 			}
 			catch(Exception exe)
@@ -192,6 +198,7 @@ public class Librarian_IssueItem_FX extends Info{
 			@Override
 			public void handle(ActionEvent arg0) {
 				try {
+					Avalibility_V = 0;
 					Menu.getScene().setRoot(Librarian_Main_FX.LibrarianMenu());
 				} catch (Exception e) {
 						
@@ -200,7 +207,7 @@ public class Librarian_IssueItem_FX extends Info{
 			}
 		});
 		
-		vbox.getChildren().addAll(hbox,hbox3,hbox2,hbox4, hbox5, hbox6 ,Issue, Menu);
+		vbox.getChildren().addAll(scenetitle, hbox,hbox3,hbox2,hbox4, hbox5, hbox6 ,Issue, Menu);
 		
 		return vbox;
 	}
@@ -210,8 +217,13 @@ public class Librarian_IssueItem_FX extends Info{
 	 * @param num
 	 * Integer value
 	 */
-	public static void setAvalibility_V(int num)
+	public static void setAvalibility_V_Increment(int num)
 	{
 		Avalibility_V += num;
+	}
+	
+	public static void setAvalibility_V(int num2)
+	{
+		Avalibility_V = num2;
 	}
 }

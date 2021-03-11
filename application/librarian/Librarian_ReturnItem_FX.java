@@ -14,7 +14,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 //import javafx.stage.Stage;
+import javafx.scene.text.Text;
 import model.Info;
 
 /**
@@ -62,6 +65,9 @@ public class Librarian_ReturnItem_FX extends Info{
 	 * This also uses try catch method where is needed to handle and reduce exceptions.
 	 */
 	public static Parent ReturnItem() throws Exception {
+		
+		Text scenetitle = new Text("Returning Item's");
+		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		
 		HBox hbox = new HBox(10);
 		hbox.setAlignment(Pos.CENTER);
@@ -158,7 +164,7 @@ public class Librarian_ReturnItem_FX extends Info{
 			}
 		});
 		
-		vbox.getChildren().addAll(hbox, hbox2, hbox3, hbox4, hbox5, Return, Menu);
+		vbox.getChildren().addAll(scenetitle, hbox, hbox2, hbox3, hbox4, hbox5, Return, Menu);
 		
 		
 		return vbox;		

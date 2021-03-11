@@ -16,6 +16,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import model.Info;
 
 /**
@@ -46,6 +49,8 @@ public class AddItem_FX extends Info {
 	 */
 	public static Parent AddItem() throws Exception {
 		
+		Text scenetitle = new Text("Adding Item's");
+		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		
 		// Create a text field to get item title and store in hbox.
 		HBox hbox = new HBox(10);
@@ -182,7 +187,7 @@ public class AddItem_FX extends Info {
 		// Add all the hbox's, add and menu button into vbox.
 		VBox vbox = new VBox(10);
 		vbox.setAlignment(Pos.CENTER);
-		vbox.getChildren().addAll(hbox, hbox2, hbox3, hbox4, hbox5, hbox6, Add, Menu);
+		vbox.getChildren().addAll(scenetitle, hbox, hbox2, hbox3, hbox4, hbox5, hbox6, Add, Menu);
 		
 		
 		return vbox;

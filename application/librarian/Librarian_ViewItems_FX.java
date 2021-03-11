@@ -13,13 +13,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 
 /**
  * <h2>View Item - JavaFX And Control</h2>
  * @author Rad Eshghi
  */
-public class Librarian_ViewBook_FX{
+public class Librarian_ViewItems_FX{
 
 
 	private static int NumOfBook;
@@ -30,7 +33,7 @@ public class Librarian_ViewBook_FX{
 	/**
 	 * This is the default constructor that will set the variables into empty state.
 	 */
-	public Librarian_ViewBook_FX()
+	public Librarian_ViewItems_FX()
 	{
 	
 		NumOfBook = 0; 
@@ -55,6 +58,8 @@ public class Librarian_ViewBook_FX{
 	 */
 	public static Parent ViewBook() throws Exception {
 		
+		Text scenetitle = new Text("View Item's");
+		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		
 		// To get the quantity.
 		if(flag == 0)
@@ -153,7 +158,7 @@ public class Librarian_ViewBook_FX{
 		});
 		
 		// Adding all the hbox;s and menu into the vbox.
-		vbox.getChildren().addAll(hbox, hbox2, hbox3, hbox4 ,Menu);
+		vbox.getChildren().addAll(scenetitle, hbox2, hbox3, hbox4, hbox, Menu);
 		
 		return vbox;		
 	}

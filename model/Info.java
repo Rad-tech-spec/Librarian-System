@@ -12,7 +12,7 @@ public abstract class Info {
 	 private static String COL_ID_S = "";
 	 private static String COL_Author = "";
 	 private static int COL_Quantity = 0; 
-	 private  static String COL_Quantity_S = ""; 
+	 private static String COL_Quantity_S = ""; 
 	 private static String COL_Status = "";
 	 private static String COL_Category = "";
 	 private static String COL_Kind = "";

@@ -5,6 +5,9 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 /**
  * <h2>Main scene - JavaFx Method Control </h2>
@@ -34,6 +37,9 @@ public class Librarian_Main_FX{
 		VBox vbox = new VBox(10);
 		vbox.setAlignment(Pos.CENTER);
 		
+		Text scenetitle = new Text("Librarian Menu");
+		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+		
 		
 		// Creates button and switch scene using the root method to view books in the system.
 		final Button ViewItem = new Button("View Items");
@@ -45,7 +51,7 @@ public class Librarian_Main_FX{
 			@Override
 			public void handle(ActionEvent arg0) {
 				try {
-					ViewItem.getScene().setRoot(Librarian_ViewBook_FX.ViewBook());
+					ViewItem.getScene().setRoot(Librarian_ViewItems_FX.ViewBook());
 				} catch (Exception e) {
 					
 					e.printStackTrace();
@@ -120,6 +126,26 @@ public class Librarian_Main_FX{
 		});
 		
 		
+		final Button WaitingList = new Button("View Waiting List");
+		WaitingList.setMaxWidth(250);
+		WaitingList.setMaxHeight(40);
+		
+		WaitingList.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				try {
+					WaitingList.getScene().setRoot(Librarian_WaitingList_FX.ViewWaiting());
+				} catch (Exception e) {
+				
+					e.printStackTrace();
+				}
+				
+			}
+			
+		});
+		
+		
 		
 		// Creates a button and switch scene using the root method to return to the log in scene.
 		Button Logout = new Button("Logout");
@@ -143,7 +169,7 @@ public class Librarian_Main_FX{
 		
 		
 		// Adds all methods to the VBox as a children.
-		vbox.getChildren().addAll(ViewItem, AddItem, IssueItem, ReturnItem, Logout);
+		vbox.getChildren().addAll(scenetitle, ViewItem, WaitingList ,AddItem, IssueItem, ReturnItem, Logout);
 		
 		// Returns back the VBox with all children added to the PrimaryStageControl class.
 		return vbox;

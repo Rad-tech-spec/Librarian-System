@@ -18,7 +18,6 @@ import model.ItemSearchAttribute;
  * 
  * @author Nikita Mezhenskyi
  * @author Alexander Samaniego
- * @author Rad Eshghi
  */
 class LibraryTester {
 	private final DBController db = new DBController();
