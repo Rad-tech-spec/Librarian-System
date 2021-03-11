@@ -142,7 +142,11 @@ public class DBController implements Data_Connection {
 		try {
 			connect();
 			statement = connection.createStatement();
-			String sql = "SELECT * FROM items WHERE id = (SELECT id FROM issued WHERE student_id = " + studentId + ");";
+			String sql = "SELECT items.id, items.name, items.author, items.category, items.status, items.type\r\n"
+					+ "FROM items\r\n"
+					+ "INNER JOIN issued\r\n"
+					+ "ON items.id = issued.id\r\n"
+					+ "WHERE issued.student_id = " + studentId + ";";
 			resSet = statement.executeQuery(sql);
 			borrowedItems = new ArrayList<Item>();
 			

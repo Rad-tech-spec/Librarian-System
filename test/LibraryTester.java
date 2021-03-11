@@ -16,7 +16,9 @@ import model.ItemSearchAttribute;
 /**
  * This class performs unit tests for the <i>Library Application</i>.
  * 
- * @authors Nikita Mezhenskyi, Alexander Samaniego
+ * @author Nikita Mezhenskyi
+ * @author Alexander Samaniego
+ * @author Rad Eshghi
  */
 class LibraryTester {
 	private final DBController db = new DBController();
@@ -51,6 +53,7 @@ class LibraryTester {
 		assertTrue(db.getBorrowedItems("100200300", true).isEmpty());
 	}
 	
+	@Test
 	@DisplayName("Login to Librarian account by ID and password - valid ID and password")
 	void testValidLibrariansLogin() {
 		try {
@@ -60,6 +63,7 @@ class LibraryTester {
 		}
 	}
 	
+	@Test
 	@DisplayName("Login to Librarian account by ID and password - invalid ID and password")
 	void testInvalidLibrarianLogin() {
 		try {
@@ -69,6 +73,7 @@ class LibraryTester {
 		}
 	}
 	
+	@Test
 	@DisplayName("Login to Admin account by ID and password - valid ID and password")
 	void testValidAdminLogin() {
 		try {
@@ -78,6 +83,7 @@ class LibraryTester {
 		}
 	}
 	
+	@Test
 	@DisplayName("Login to Admin account by ID and password - invalid ID and password")
 	void testInvalidAdminLogin() {
 		try {
