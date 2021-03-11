@@ -7,11 +7,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 import application.Login;
-import dao.Database;
+import dao.LoginAdminDBController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -197,7 +196,7 @@ public class Admin {
 
 		TableView<Librarian> tableView = new TableView<>();
 		ResultSet resultSet = null;
-		Connection conn = Database.connect();
+		Connection conn = LoginAdminDBController.connect();
 		ObservableList<Librarian> dbData = null;
 
 		try {
@@ -293,18 +292,12 @@ public class Admin {
 
 		try {
 			int idNum = Integer.parseInt(id);
-			Connection conn = Database.connect();
-			try {
-				Statement statement = conn.createStatement();
-				statement.execute("CREATE TABLE IF NOT EXISTS librarian "
-						+ " (id INTEGER PRIMARY KEY, firstName TEXT, lastName TEXT, password TEXT)");
-				statement.execute("INSERT INTO librarian (id, firstName, lastName, password) VALUES (" + idNum + ", '"
-						+ fname + "', '" + lname + "', '" + password + "')");
+			boolean success = LoginAdminDBController.registerLibrarian(idNum, fname, lname, password);
+
+			if (success) {
 				Helper.showAlert(Alert.AlertType.INFORMATION, grid.getScene().getWindow(), "Librarian Added!",
 						"A new Librarian has been added.");
-
-			} catch (SQLException e) {
-				e.printStackTrace();
+			} else {
 				Helper.showAlert(Alert.AlertType.ERROR, grid.getScene().getWindow(), "Registration Error!",
 						"Librarian ID already exists.");
 			}
@@ -324,23 +317,15 @@ public class Admin {
 	private static void deleteButton(String id, GridPane grid) {
 		try {
 			int idNum = Integer.parseInt(id);
-			Connection conn = Database.connect();
 			int numDeleted = 0;
-			try {
-				Statement statement = conn.createStatement();
-				numDeleted = statement.executeUpdate("DELETE FROM librarian WHERE id=" + idNum);
-				Text actiontarget = new Text();
+			numDeleted = LoginAdminDBController.deleteLibrarian(idNum);
 
-				if (numDeleted > 0) {
-					actiontarget.setText("Librarian Deleted");
-					grid.add(actiontarget, 1, 3);
-				} else {
-					Helper.showAlert(Alert.AlertType.ERROR, grid.getScene().getWindow(), "Deletion Error!",
-							"No librarians with this ID was found.");
-				}
-
-			} catch (SQLException e) {
-				e.printStackTrace();
+			if (numDeleted > 0) {
+				Helper.showAlert(Alert.AlertType.INFORMATION, grid.getScene().getWindow(), "Librarian Deleted!",
+						"Librarian with ID number " + idNum + " has been deleted");
+			} else {
+				Helper.showAlert(Alert.AlertType.ERROR, grid.getScene().getWindow(), "Deletion Error!",
+						"No librarians with this ID was found.");
 			}
 
 		} catch (NumberFormatException e) {
