@@ -101,26 +101,27 @@ public class DBController implements Data_Connection {
 		List<Item> result = null;
 		
 		try {
-			connect();
-			statement = connection.createStatement();
-			String sql = (attributeName == ItemSearchAttribute.ID) ? 
-				("SELECT * FROM items WHERE " + attributeName.getAttributeName() + "=" + searchValue + ";") :
-				// iLIKE is PostgreSQL operator for case insensitive search
-				("SELECT * FROM items WHERE " + attributeName.getAttributeName() + " iLIKE '%" + searchValue + "%';");  
-			resSet = statement.executeQuery(sql);
-			result = new ArrayList<Item>();
-			
-			while (resSet.next()) {
-				Item entry = new Item();
+			if (connect()) {
+				statement = connection.createStatement();
+				String sql = (attributeName == ItemSearchAttribute.ID) ? 
+					("SELECT * FROM items WHERE " + attributeName.getAttributeName() + "=" + searchValue + ";") :
+					// iLIKE is PostgreSQL operator for case insensitive search
+					("SELECT * FROM items WHERE " + attributeName.getAttributeName() + " iLIKE '%" + searchValue + "%';");  
+				resSet = statement.executeQuery(sql);
+				result = new ArrayList<Item>();
 				
-				entry.setId(resSet.getString("id"));
-				entry.setTitle(resSet.getString("name"));
-				entry.setAuthor(resSet.getString("author"));
-				entry.setCategory(resSet.getString("category"));
-				entry.setStatus(resSet.getString("status"));
-				entry.setType(resSet.getString("type"));
-				
-				result.add(entry);
+				while (resSet.next()) {
+					Item entry = new Item();
+					
+					entry.setId(resSet.getString("id"));
+					entry.setTitle(resSet.getString("name"));
+					entry.setAuthor(resSet.getString("author"));
+					entry.setCategory(resSet.getString("category"));
+					entry.setStatus(resSet.getString("status"));
+					entry.setType(resSet.getString("type"));
+					
+					result.add(entry);
+				}
 			}
 		}
 		catch (SQLException ex) { ex.printStackTrace(); }
@@ -140,30 +141,31 @@ public class DBController implements Data_Connection {
 		List<Item> borrowedItems = null;
 		
 		try {
-			connect();
-			statement = connection.createStatement();
-			String sql = "SELECT items.id, items.name, items.author, items.category, items.status, items.type\r\n"
-					+ "FROM items\r\n"
-					+ "INNER JOIN issued\r\n"
-					+ "ON items.id = issued.id\r\n"
-					+ "WHERE issued.student_id = " + studentId + ";";
-			resSet = statement.executeQuery(sql);
-			borrowedItems = new ArrayList<Item>();
-			
-			while (resSet.next()) {
-				Item entry = new Item();
+			if (connect()) {
+				statement = connection.createStatement();
+				String sql = "SELECT items.id, items.name, items.author, items.category, items.status, items.type\r\n"
+						+ "FROM items\r\n"
+						+ "INNER JOIN issued\r\n"
+						+ "ON items.id = issued.id\r\n"
+						+ "WHERE issued.student_id = " + studentId + ";";
+				resSet = statement.executeQuery(sql);
+				borrowedItems = new ArrayList<Item>();
 				
-				entry.setId(resSet.getString("id"));
-				entry.setTitle(resSet.getString("name"));
-				entry.setAuthor(resSet.getString("author"));
-				entry.setCategory(resSet.getString("category"));
-				entry.setStatus(resSet.getString("status"));
-				entry.setType(resSet.getString("type"));
+				while (resSet.next()) {
+					Item entry = new Item();
+					
+					entry.setId(resSet.getString("id"));
+					entry.setTitle(resSet.getString("name"));
+					entry.setAuthor(resSet.getString("author"));
+					entry.setCategory(resSet.getString("category"));
+					entry.setStatus(resSet.getString("status"));
+					entry.setType(resSet.getString("type"));
+					
+					borrowedItems.add(entry);
+				}
 				
-				borrowedItems.add(entry);
+				if (report && borrowedItems.size() > 0) generateReport(borrowedItems, "borrowed_items_" + studentId + ".txt");
 			}
-			
-			if (report && borrowedItems.size() > 0) generateReport(borrowedItems, "borrowed_items_" + studentId + ".txt");
 		}
 		catch (SQLException ex) { ex.printStackTrace(); }
 		finally { disconnect(); }
@@ -220,27 +222,28 @@ public class DBController implements Data_Connection {
 		String requestNum = null;
 		
 		try {
-			connect();
-			statement = connection.createStatement();
-			
-			String sql = "INSERT INTO request_ticket (student_id, student_name, student_phone, student_standing, student_degree_level, item_id)\r\n"
-					+ " VALUES (" + student.getStudentId() + ", '"
-					+ student.getStudentName() + "', '"
-					+ student.getStudentPhone() + "', '"
-					+ student.getAcademicStanding() + "', '"
-					+ student.getDegreeLevel() + "', "
-					+ item.getId()
-					+ ");";
-			
-			statement.executeUpdate(sql);
-			
-			// Get the request number for the return statement
-			sql = "SELECT request_num FROM request_ticket\r\n"
-					+ " WHERE student_id = " + student.getStudentId()
-					+ " AND item_id = " + item.getId();
-			resSet = statement.executeQuery(sql);
-			resSet.next();
-			requestNum = resSet.getString("request_num");
+			if (connect()) {
+				statement = connection.createStatement();
+				
+				String sql = "INSERT INTO request_ticket (student_id, student_name, student_phone, student_standing, student_degree_level, item_id)\r\n"
+						+ " VALUES (" + student.getStudentId() + ", '"
+						+ student.getStudentName() + "', '"
+						+ student.getStudentPhone() + "', '"
+						+ student.getAcademicStanding() + "', '"
+						+ student.getDegreeLevel() + "', "
+						+ item.getId()
+						+ ");";
+				
+				statement.executeUpdate(sql);
+				
+				// Get the request number for the return statement
+				sql = "SELECT request_num FROM request_ticket\r\n"
+						+ " WHERE student_id = " + student.getStudentId()
+						+ " AND item_id = " + item.getId();
+				resSet = statement.executeQuery(sql);
+				resSet.next();
+				requestNum = resSet.getString("request_num");
+			}
 		}
 		catch (SQLException ex) { ex.printStackTrace(); }
 		finally { disconnect(); }
@@ -253,33 +256,34 @@ public class DBController implements Data_Connection {
 	 */
 	private void createRequestTicketTable() {
 		try {
-			connect();
-			DatabaseMetaData dbm = connection.getMetaData();
-			
-			// Check if request_ticket table already exists
-			resSet = dbm.getTables(null, null, "request_ticket", null);
-			
-			if (!resSet.next()) {
-				statement = connection.createStatement();
-				String sql = "CREATE TABLE request_ticket\r\n"
-						+ "(\r\n"
-						+ " request_num serial constraint request_num_pk primary key,\r\n"
-						+ "	student_id int not null,\r\n"
-						+ "	student_name varchar not null,\r\n"
-						+ " student_phone varchar not null,\r\n"
-						+ "	student_standing varchar not null,\r\n"
-						+ "	student_degree_level varchar not null,\r\n"
-						+ " request_date timestamp default CURRENT_TIMESTAMP not null,\r\n"
-						+ "	item_id int\r\n"
-						+ "		constraint request_ticket_items_id_fk\r\n"
-						+ "			references items\r\n"
-						+ "				on update cascade on delete cascade\r\n"
-						+ ");";
-				statement.executeUpdate(sql);
+			if (connect()) {
+				DatabaseMetaData dbm = connection.getMetaData();
+				
+				// Check if request_ticket table already exists
+				resSet = dbm.getTables(null, null, "request_ticket", null);
+				
+				if (!resSet.next()) {
+					statement = connection.createStatement();
+					String sql = "CREATE TABLE request_ticket\r\n"
+							+ "(\r\n"
+							+ " request_num serial constraint request_num_pk primary key,\r\n"
+							+ "	student_id int not null,\r\n"
+							+ "	student_name varchar not null,\r\n"
+							+ " student_phone varchar not null,\r\n"
+							+ "	student_standing varchar not null,\r\n"
+							+ "	student_degree_level varchar not null,\r\n"
+							+ " request_date timestamp default CURRENT_TIMESTAMP not null,\r\n"
+							+ "	item_id int\r\n"
+							+ "		constraint request_ticket_items_id_fk\r\n"
+							+ "			references items\r\n"
+							+ "				on update cascade on delete cascade\r\n"
+							+ ");";
+					statement.executeUpdate(sql);
+				}
+				
+				// If the previous code in the try block didn't throw an exception, the Start Up Procedure is complete
+				startUpProcedureComplete = true;
 			}
-			
-			// If the previous code in the try block didn't throw an exception, the Start Up Procedure is complete
-			startUpProcedureComplete = true;
 		}
 		catch (SQLException ex) { ex.printStackTrace(); }
 		finally { disconnect(); }

@@ -146,7 +146,7 @@ public class StudentViewController {
 	 */
 	public void viewBorrowedBtnClick(ActionEvent event) {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmlViews/BorrowedItemsView.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/fxmlViews/BorrowedItemsView.fxml"));
 			Parent root = loader.load();
 			BorrowedItemsViewController viewCtrl = loader.getController();
 			
@@ -172,7 +172,7 @@ public class StudentViewController {
 		Item selectedItem = dataTable.getSelectionModel().getSelectedItem();
 		if (selectedItem != null) {
 			try {
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmlViews/RequestItemView.fxml"));
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/fxmlViews/RequestItemView.fxml"));
 				Parent root = loader.load();
 				RequestItemViewController viewCtrl = loader.getController();
 				
