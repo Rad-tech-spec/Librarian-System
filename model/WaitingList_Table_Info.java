@@ -8,7 +8,7 @@ package model;
 * default constructor.
 **/
 
-public class WaitngList_Table_Info {
+public class WaitingList_Table_Info {
 	
 	private int RequestNum;
 	private int StudentID;
@@ -21,7 +21,7 @@ public class WaitngList_Table_Info {
 	
 	
 	
-	public WaitngList_Table_Info(int i, int j, String string, String string2, String string3, String string4,
+	public WaitingList_Table_Info(int i, int j, String string, String string2, String string3, String string4,
 			String string5, int k) {
 		
 		this.RequestNum = i;

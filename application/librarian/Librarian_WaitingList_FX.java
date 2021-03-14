@@ -14,7 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import model.WaitngList_Table_Info;
+import model.WaitingList_Table_Info;
 /**
  * <h2>View Waiting - JavaFX And Control</h2>
  * @author Rad Eshghi
@@ -24,7 +24,7 @@ import model.WaitngList_Table_Info;
 public class Librarian_WaitingList_FX {
 	
 	
-	public static TableView<WaitngList_Table_Info> tableview = new TableView<WaitngList_Table_Info>();
+	public static TableView<WaitingList_Table_Info> tableview = new TableView<WaitingList_Table_Info>();
 	public static int flag = 0;
 	
 	/**
@@ -43,28 +43,28 @@ public class Librarian_WaitingList_FX {
 		
 		if(flag == 0)
 		{
-			TableColumn<WaitngList_Table_Info, String> RequestNum = new TableColumn<>("Request#");
+			TableColumn<WaitingList_Table_Info, String> RequestNum = new TableColumn<>("Request#");
 			RequestNum.setCellValueFactory(new PropertyValueFactory<>("requestNum"));
 			
-			TableColumn<WaitngList_Table_Info, String>  StudentID = new TableColumn<>("ST ID");
+			TableColumn<WaitingList_Table_Info, String>  StudentID = new TableColumn<>("ST ID");
 			StudentID.setCellValueFactory(new PropertyValueFactory<>("studentID"));
 			
-			TableColumn<WaitngList_Table_Info, String> StudentName = new TableColumn<>("ST Name");
+			TableColumn<WaitingList_Table_Info, String> StudentName = new TableColumn<>("ST Name");
 			StudentName.setCellValueFactory(new PropertyValueFactory<>("studentName"));
 			
-			TableColumn<WaitngList_Table_Info, String> StudentPhone = new TableColumn<>("ST Phone");
+			TableColumn<WaitingList_Table_Info, String> StudentPhone = new TableColumn<>("ST Phone");
 			StudentPhone.setCellValueFactory(new PropertyValueFactory<>("studentPhone"));
 			
-			TableColumn<WaitngList_Table_Info, String> StudentStanding = new TableColumn<>("ST Standing");
+			TableColumn<WaitingList_Table_Info, String> StudentStanding = new TableColumn<>("ST Standing");
 			StudentStanding.setCellValueFactory(new PropertyValueFactory<>("standing"));
 			
-			TableColumn<WaitngList_Table_Info, String> StudentDegree = new TableColumn<>("ST Degree");
+			TableColumn<WaitingList_Table_Info, String> StudentDegree = new TableColumn<>("ST Degree");
 			StudentDegree.setCellValueFactory(new PropertyValueFactory<>("degreelvl"));
 			
-			TableColumn<WaitngList_Table_Info, String> RequestDate = new TableColumn<>("Request Date");
+			TableColumn<WaitingList_Table_Info, String> RequestDate = new TableColumn<>("Request Date");
 			RequestDate.setCellValueFactory(new PropertyValueFactory<>("date"));
 			
-			TableColumn<WaitngList_Table_Info, String> ItemID = new TableColumn<>("Item ID");
+			TableColumn<WaitingList_Table_Info, String> ItemID = new TableColumn<>("Item ID");
 			ItemID.setCellValueFactory(new PropertyValueFactory<>("itemID"));
 		      
 			
@@ -80,7 +80,7 @@ public class Librarian_WaitingList_FX {
 		Delete.setMaxWidth(100);
 		Delete.setMaxHeight(10);
 		Delete.setOnAction(e ->{
-			WaitngList_Table_Info selectedItem = tableview.getSelectionModel().getSelectedItem();
+			WaitingList_Table_Info selectedItem = tableview.getSelectionModel().getSelectedItem();
 			tableview.getItems().remove(selectedItem);
 		});
 

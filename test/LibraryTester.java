@@ -10,6 +10,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import dao.DBController;
+import dao.Data;
 import dao.LoginAdminDBController;
 import model.ItemSearchAttribute;
 
@@ -18,6 +19,7 @@ import model.ItemSearchAttribute;
  * 
  * @author Nikita Mezhenskyi
  * @author Alexander Samaniego
+ * @author Rad Eshghi
  */
 class LibraryTester {
 	private final DBController db = new DBController();
@@ -90,5 +92,52 @@ class LibraryTester {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Test
+	@DisplayName("Adding An Item To Library")
+	void testAddingItem()
+	{
+		assertTrue(Data.AddItem("NewBook", 852, "Rad", "History", "Hold", "Book"));
+	}
+	
+	
+	@Test
+	@DisplayName("Testing - Generating Report")
+	public void testGenerateFile()
+	{
+		assertTrue(Data.GenerateFile());
+	}
+	
+	
+	@Test
+	@DisplayName("Testing - Returning Item method")
+	public void testReturnItem()
+	{
+		assertTrue(Data.Return("Miracle", 456, "Rad", 123456, "999-999-9999"));
+	}
+	
+	
+	@Test
+	@DisplayName("Testing - QuantityType")
+	void testGetingQuantityType()
+	{
+		assertTrue(Data.GetQuantityType());
+	}
+	
+	
+	@Test
+	@DisplayName("Testing - Issuing a Item")
+	void testIssuing()
+	{
+		assertTrue(Data.Issue("NewBook", 189, 1, "Rad", 123, "905-999-9999"));
+	}
+	
+	
+	@Test
+	@DisplayName("Testing - Searching for quantity")
+	public void testSearchingQuantity()
+	{
+		assertEquals( true , Data.SearchQuantity("NewBook"));
 	}
 }

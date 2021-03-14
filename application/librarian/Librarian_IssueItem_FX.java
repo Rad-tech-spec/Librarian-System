@@ -71,9 +71,9 @@ public class Librarian_IssueItem_FX extends Info{
 		
 		HBox hbox = new HBox(10);
 		hbox.setAlignment(Pos.CENTER);
-		Label BookName = new Label("Item Name:");
+		Label BookName = new Label("Item Title:");
 		TextField textField = new TextField ();
-		textField.setPromptText("Book, Movie, Magazine");
+		textField.setPromptText("Robinhood, Miracle, The Irishman");
 		hbox.getChildren().addAll(BookName, textField);
 		
 
@@ -167,6 +167,13 @@ public class Librarian_IssueItem_FX extends Info{
 				StudentPhone_V = textField6.getText();
 				
 				Data.Issue(getCOL_Name(), getCOL_ID(), Avalibility_V,StudentName_V,StudentID_V,StudentPhone_V);
+				
+				System.out.println("Issuing Item Completed.");
+             			Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Success");
+				alert.setContentText(getCOL_Name() + " ID:" + getCOL_ID() + " Item has been issued.");
+				alert.setHeaderText(null);
+				alert.showAndWait();
 				
 
 			}

@@ -1,8 +1,4 @@
-/**
- * 
- */
 package dao;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -15,19 +11,17 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
 import application.librarian.Librarian_IssueItem_FX;
 import application.librarian.Librarian_ViewItems_FX;
 import application.librarian.Librarian_WaitingList_FX;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import model.Info;
 import model.Student_Table_Info;
-import model.WaitngList_Table_Info;
+import model.WaitingList_Table_Info;
 
 
 /**
@@ -45,7 +39,7 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
 	static String queryTicket = "SELECT * FROM request_ticket";
 	static int count = 0;
 	static int count2 = 0;
-
+	
 	
 	/**
 	 * This method is responsible to add a new item into the data base table also it is<br>
@@ -71,7 +65,7 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
 	 * @return
 	 */
 	//AddBook_Class///////////////////////////////////////////////////////////////////////////////  MODIFIED AND WORKS
-	public static Parent AddItem(String name, int Id, String author, String category, String status, String kind)
+	public static boolean AddItem(String name, int Id, String author, String category, String status, String kind)
 	{
 		
 		setTable_Name("Items");
@@ -81,6 +75,7 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
 		setCOL_Status("Status");
 		setCOL_Category("Category"); 
 		setCOL_Kind("Type");
+		boolean flag = true;
 	
 
         try
@@ -99,6 +94,7 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
             {
             	System.out.println("Error: Creating Table Faild!");
             	e.printStackTrace();
+            	flag = false;
             }
             
             
@@ -119,17 +115,14 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
             	prestat.execute();
             	
             	System.out.println("Adding Book Completed.");
-            	Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Success");
-				alert.setContentText(getCOL_Name() + " ID: " + getCOL_ID() +" New Item has been added to the table.");
-				alert.setHeaderText(null);
-				alert.showAndWait();
+            	
             
             }
             catch(SQLException e)
             {
             	System.out.println("Error: Could not add new Book!");
             	e.printStackTrace();
+            	flag = false;
             }
             
             
@@ -140,9 +133,11 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
         {
             System.out.println("Error. Couldn't connect to PostgreSQL server!");
             e.printStackTrace();
+            flag = false; 
         }
         
-		return null;
+      
+		return flag;
 	}
 	
 	
@@ -156,9 +151,10 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
 	 * @return
 	 */
 	//ViewBook_Class//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	public static Parent GenerateFile() 
+	public static boolean GenerateFile() 
 	{
 		
+		boolean flag = true; 
 		
 		FileWriter outputStream = null;
 		//String outFileStr = "LibraryItems.txt";
@@ -197,7 +193,8 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
          	  {
         		   DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
         		   LocalDateTime now = LocalDateTime.now();
-	        	   outputStream.write("ID\t\t\t\tTitle\t\t\t\tAuthor/Director\t\tCategory\t\t\t\tStatus\t\t\t\t\tType\n");
+        		   String time_date = dtf.format(now);
+	        	   outputStream.write("ID\t\tTitle\t\tAuthor/Director\t\tCategory\t\tStatus\t\tType\n");
 	        	   outputStream.write("-------------------------------------------------------------------------------------------------------------\n");
 	        
 	        		   
@@ -217,20 +214,13 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
 	        	   
   	       	   
 	        	   outputStream.write("--------------------------------------------------END OF FILE--------------------------------------------------\n");
-	        	   outputStream.write("Generated in: " +  dtf.format(now) + "\t\t Books#: " + Librarian_ViewItems_FX.getNumOfBook() + "\t Magazine#: " + Librarian_ViewItems_FX.getNumOfMagazine() 
-	        	   	+ "\t Video#: " + Librarian_ViewItems_FX.getNumOfVideo());  
+	        	   outputStream.write("Generated in: " + time_date + "\t\t Books#: " + Librarian_ViewItems_FX.getNumOfBook() + "\t Magazine#: " + Librarian_ViewItems_FX.getNumOfMagazine() 
+	        	   + "\t Video#: " + Librarian_ViewItems_FX.getNumOfVideo());  
 	        	   outputStream.write("\n---------------------------------------------------------------------------------------------------------------\n\n\n");
 	        	   outputStream.close();
 	        	   statement.close();
 	        	   count++;
 	        	   
-	        	   
-	        	   
-	        	   	Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setTitle("Success");
-					alert.setContentText("Record has been generated and added to the file.");
-					alert.setHeaderText(null);
-					alert.showAndWait();
 	        	}
 	   
            }
@@ -238,9 +228,10 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
            {
         	 System.out.println("Error: On Search query!");
         	 e.printStackTrace();   
+        	 flag = false;
            }          
-           catch(FileNotFoundException e) { e.printStackTrace();}
-           catch(IOException e) { e.printStackTrace();}
+           catch(FileNotFoundException e) { e.printStackTrace(); flag = false;}
+           catch(IOException e) { e.printStackTrace();  flag = false;}
            
             connection.close();
         }
@@ -248,9 +239,11 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
         {
             System.out.println("Error. Couldn't connect to PostgreSQL server!");
             e.printStackTrace();
+            flag = false;
         }
 	}
-		return null;
+		
+		return flag;
 	}
 
 	
@@ -259,8 +252,10 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
 	 * This method is responsible to count the number of books , magazines and videos in the library by connection to the data base.<br>
 	 * This method also uses a try catch method to reduce and handle exceptions.
 	 */
-	public static void GetQuantityType()
+	public static boolean GetQuantityType()
 	{
+		boolean flag = true; 
+		
         try
         {
             Connection connection = DriverManager.getConnection(Data_Connection.jdbcURL, Data_Connection.username, Data_Connection.password);
@@ -271,25 +266,35 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
         	   Statement statement = connection.createStatement();
         	   ResultSet result = statement.executeQuery(queryItems);
         	   
-        	   while(result.next())
+        	   while(result.next() && result != null)
         	   {
         		  
-        		   setCOL_Kind(result.getString("type"));
-        		   
-        		   if(getCOL_Kind().equals("Book"))
-        			   Librarian_ViewItems_FX.setNumOfBook(1);
-        		   else if (getCOL_Kind().equals("Magazines"))
-        			   Librarian_ViewItems_FX.setNumOfMagazine(1);
-        		   else
-        			   Librarian_ViewItems_FX.setNumOfVideo(1);
+        		   try
+        		   {
+        			   setCOL_Kind(result.getString("type"));
+            		   
+            		   if(getCOL_Kind().equals("Book"))
+            			   Librarian_ViewItems_FX.setNumOfBook(1);
+            		   else if (getCOL_Kind().equals("Magazines"))
+            			   Librarian_ViewItems_FX.setNumOfMagazine(1);
+            		   else
+            			   Librarian_ViewItems_FX.setNumOfVideo(1);
+        			   
+        		   }
+        		   catch(Exception e)
+        		   {
+        			   e.printStackTrace();
+        		   }
+        		  
         	   }
-
+        	   
         	   statement.close();
            }
            catch(SQLException e)
            {
         	 System.out.println("Error: On Search query (GetQuantity)!");
-        	 e.printStackTrace();   
+        	 e.printStackTrace(); 
+        	 flag = false;
            }
 
             connection.close();
@@ -298,7 +303,10 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
         {
             System.out.println("Error. Couldn't connect to PostgreSQL server! (GetQuantity)");
             e.printStackTrace();
+            flag = false;
         }
+        
+        return flag;
 	}
 	
 	
@@ -326,7 +334,7 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
 	 * @return
 	 */
 	
-	public static Parent Issue(String name, int id, int avalibility, String StudentName, int StudentID, String StudentPhone)
+	public static boolean Issue(String name, int id, int avalibility, String StudentName, int StudentID, String StudentPhone)
 	{
 		
 		boolean flag = true;
@@ -351,6 +359,7 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
              {
              	System.out.println("Error: Creating Table Faild!");
              	e.printStackTrace();
+             	flag = false;
              }
  
              
@@ -409,16 +418,10 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
                  	catch(SQLException e)
                  	{
                  		e.printStackTrace();
+                 		flag = false;
                  	}
 
-
                  	
-                 	System.out.println("Issuing Item Completed.");
-                 	Alert alert = new Alert(AlertType.INFORMATION);
-    				alert.setTitle("Success");
-    				alert.setContentText(name + " ID:" + id + " Item has been issued.");
-    				alert.setHeaderText(null);
-    				alert.showAndWait();
             	 }
             	 else
             	 {
@@ -433,6 +436,7 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
              {
              	System.out.println("Error: Could not add new Item!");
              	e.printStackTrace();
+             	flag = false;
              }
            
             statement.close();
@@ -442,9 +446,10 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
         {
             System.out.println("Error. Couldn't connect to PostgreSQL server!");
             e.printStackTrace();
+            flag = false;
         }
         
-		return null;
+		return flag;
 	}
 	
 	
@@ -454,8 +459,9 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
 	 * @param name
 	 * Item name of type string.
 	 */
-	public static void SearchQuantity(String name)
+	public static boolean SearchQuantity(String name)
 	{
+		boolean flag = true; 
         try
         {
             Connection connection = DriverManager.getConnection(Data_Connection.jdbcURL, Data_Connection.username, Data_Connection.password);
@@ -489,6 +495,7 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
            {
         	 System.out.println("Error: On Search query (Search)!");
         	 e.printStackTrace();   
+        	 flag = false;
            }
 
             connection.close();
@@ -497,7 +504,10 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
         {
             System.out.println("Error. Couldn't connect to PostgreSQL server! (Search)");
             e.printStackTrace();
+            flag = false;
         }
+        
+        return flag;
 	}
 	
 	
@@ -519,7 +529,7 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
 	 * Student phone number of type string.
 	 * @return
 	 */
-	public static Parent Return(String name, int id,String StudentName, int StudentID, String StudentPhone)
+	public static boolean Return(String name, int id,String StudentName, int StudentID, String StudentPhone)
 	{
 		
 		setTable_Name("returned");
@@ -566,9 +576,8 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
 	          		   String St_Name = result.getString("student_name");
 	          		   int St_ID = result.getInt("student_id");
 	          		   String COL_StudentPhone2 = result.getString("student_phone");
-	          		    
-	          		   System.out.println(Name + " " + St_Name + " " + St_ID + " " + COL_StudentPhone2);
-	          		   System.out.println(name + " " + StudentName + " " + StudentID + " " + StudentPhone);
+	       
+	          		   
 	          		    if(Name.equals(name) && St_Name.equals(StudentName) && St_ID == StudentID && COL_StudentPhone2.equals(StudentPhone))
 	          		    {
 	          		    	flag2 = true;
@@ -651,7 +660,7 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
             e.printStackTrace();
         }
         
-		return null;
+		return flag;
 	}
 
 
@@ -661,8 +670,9 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
 	 * This method is responsible to extract data from data base which shows the student ticket number and other<br>
 	 * information so that the librarian will be able to issue to who is next.
 	 */
-	public static void Get_Waitng_data()
+	public static boolean Get_Waitng_data()
 	{
+		boolean flag = true;
 		
 		try
 		{
@@ -694,7 +704,7 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
 	    		   Date = result.getString("request_date");
 	    		   ItemId = result.getInt("item_id");
 	    		   
-	    		   Librarian_WaitingList_FX.tableview.getItems().add(new WaitngList_Table_Info(requestNum,Stnum,StName,Stphone,Standing,Dgreelvl,Date,ItemId));
+	    		   Librarian_WaitingList_FX.tableview.getItems().add(new WaitingList_Table_Info(requestNum,Stnum,StName,Stphone,Standing,Dgreelvl,Date,ItemId));
 	    		   System.out.print(requestNum  + " " +  Stnum+ " " + StName+ " " + Stphone+ " " + Standing+ " " + Dgreelvl+ " " + Date+ " " + ItemId);
 	    	   }
 	    	   
@@ -705,8 +715,10 @@ public class Data extends Info implements Student_Table_Info, Data_Connection{
 		{
 			System.out.println("Error. Couldn't connect to PostgreSQL server!");
 			e.printStackTrace();
+			flag = false;
 		}
 		
+		return flag;
 	}
 }
 	

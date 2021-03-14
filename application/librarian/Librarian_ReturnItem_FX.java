@@ -71,9 +71,9 @@ public class Librarian_ReturnItem_FX extends Info{
 		
 		HBox hbox = new HBox(10);
 		hbox.setAlignment(Pos.CENTER);
-		Label BookName = new Label("Item Name:");
+		Label BookName = new Label("Item Title:");
 		TextField textField = new TextField ();
-		textField.setPromptText("Book, Movie, Magazine");
+		textField.setPromptText("Robinhood, Miracle, The Irishman");
 		hbox.getChildren().addAll(BookName, textField);
 		
 	

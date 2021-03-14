@@ -57,7 +57,7 @@ public class AddItem_FX extends Info {
 		hbox.setAlignment(Pos.CENTER);
 		Label ItemName = new Label("Item Title:           ");
 		TextField textField = new TextField ();
-		textField.setPromptText("Book, Movie, Magazine");
+		textField.setPromptText("Robinhood, Miracle, The Irishman");
 		hbox.getChildren().addAll(ItemName, textField);
 		
 		
@@ -151,6 +151,11 @@ public class AddItem_FX extends Info {
 			
 				Data.AddItem(getCOL_Name(), getCOL_ID(), getCOL_Author(), getCOL_Category(), getCOL_Status(), getCOL_Kind());
 				
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Success");
+				alert.setContentText(getCOL_Name() + " ID: " + getCOL_ID() +" New Item has been added to the table.");
+				alert.setHeaderText(null);
+				alert.showAndWait();
 			} catch (Exception exe) {
 				
 				// Display a message to let the user know something is wrong.

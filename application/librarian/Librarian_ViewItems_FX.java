@@ -80,6 +80,12 @@ public class Librarian_ViewItems_FX{
 			{
 				Data.GenerateFile();
 				System.out.println(NumOfBook);
+				
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Success");
+				alert.setContentText("Record has been generated and added to the file.");
+				alert.setHeaderText(null);
+				alert.showAndWait();
 			}
 			catch (Exception exe)
 			{
