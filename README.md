@@ -1,4 +1,4 @@
-# btp400-library-app
+# library-app
 
 ## File structure:
 * __application__ package contains logic for UI rendering and manipulation
